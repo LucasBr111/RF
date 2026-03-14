@@ -83,13 +83,16 @@ class VentasController {
             if ($id_modelo === 'OTRO') {
                 $id_modelo = $this->modelo_vehiculo->guardar($data->vehiculo->nuevo_nombre);
             }
-    
+
+            
+            //Crear objeto con las propiedades necesarias para guardar el vehículo
+            $vehiculoObjeto = new Vehiculo();
+            $vehiculoObjeto->id_modelo = $id_modelo;
+            $vehiculoObjeto->anho = $data->vehiculo->anho;
+            $vehiculoObjeto->color = $data->vehiculo->color;
+            $vehiculoObjeto->detalle = $data->vehiculo->detalle;
             // 3. Manejar Vehículo
-            $id_vehiculo = $this->vehiculo->guardar(
-                $id_modelo, 
-                $data->vehiculo->anho, 
-                $data->vehiculo->color
-            );
+            $id_vehiculo = $this->vehiculo->guardar($vehiculoObjeto);
 
             // 4. Guardar Venta
             $id_venta = $this->model->guardar_cabecera($id_cliente, $id_vehiculo, $data->venta);
@@ -137,4 +140,17 @@ class VentasController {
     //     }
         
     // }
+    public function pagare() {
+    $id_venta = $_GET['id'];
+    require_once "./config/app.php"; // 👈 importante
+    // Obtenemos los datos del modelo
+    $pagares = $this->model->listarPagaresPorVenta($id_venta);
+    
+    if(empty($pagares)) {
+        die("No hay cuotas registradas para esta venta.");
+    }
+
+    // Cargamos la vista del PDF
+    require_once 'view/informes/pagarepdf.php';
+}
 }

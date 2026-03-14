@@ -1,7 +1,7 @@
 <div class="container-fluid py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="fw-bold text-dark m-0">Directorio de Clientes</h4>
-        <button onclick="abrirModalCliente()" class="btn-nuevo shadow-sm">
+        <button onclick="abrirModalCliente()" type="button" class="btn btn-primary px-4" >
             <i class="bi bi-person-plus-fill me-2"></i>Registrar Nuevo
         </button>
     </div>
@@ -53,7 +53,7 @@
                         <td><?= htmlspecialchars($c->ubicacion) ?></td>
                         <td>
                             <span class="badge bg-light text-dark border fw-normal">
-                                <?= $c->codeudor_nombre ?: 'N/A' ?>
+                                <?= $c->codeudor_nombre ?: 'No Tiene' ?>
                             </span>
                         </td>
                         <td class="text-center">

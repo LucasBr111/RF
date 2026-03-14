@@ -51,9 +51,10 @@ function renderTablaCobros($id, $data) {
             <table class="table table-hover align-middle display nowrap w-100 datatable-custom" id="<?= $id ?>">
                 <thead>
                     <tr>
+                         <th>Venta #</th>
                         <th>Hora/Fecha</th>
                         <th>Cliente</th>
-                        <th>Venta #</th>
+                       
                         <th>Cuota</th>
                         <th>Método</th>
                         <th>Monto Entregado</th>
@@ -63,9 +64,10 @@ function renderTablaCobros($id, $data) {
                 <tbody>
                     <?php foreach($data as $p): ?>
                     <tr>
+                         <td><span class="badge bg-dark border">#<?= $p->id_venta ?></span></td>
                         <td class="mono"><?= date('H:i | d/m', strtotime($p->created_at)) ?></td>
                         <td class="fw-bold"><?= htmlspecialchars($p->cliente_nombre) ?></td>
-                        <td><span class="badge bg-dark border text-muted">#<?= $p->id_venta ?></span></td>
+                       
                         <td>Cuota <?= str_pad($p->numero_cuota, 2, '0', STR_PAD_LEFT) ?></td>
                         <td><span class="badge-cuota hoy"><?= $p->metodo_pago ?></span></td>
                         <td class="text-success fw-bold mono">Gs. <?= number_format($p->monto_entregado, 0, ',', '.') ?></td>

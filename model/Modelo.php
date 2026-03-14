@@ -29,7 +29,48 @@ class Modelo
 
     public function listar()
     {
-        $sql = "SELECT id_modelo, nombre FROM modelos ORDER BY nombre";
+        $sql = "SELECT 
+                    m.id_modelo,
+                    m.nombre,
+                    COUNT(v.id_modelo) AS cantidad
+                FROM modelos m
+                LEFT JOIN vehiculos v 
+                    ON m.id_modelo = v.id_modelo
+                GROUP BY m.id_modelo, m.nombre
+                ORDER BY m.nombre;";
         return $this->pdo->query($sql)->fetchAll(PDO::FETCH_OBJ);
+    }
+
+
+
+    public function obtener($id)
+    {
+        try {
+            $stm = $this->pdo->prepare("SELECT * FROM modelos WHERE id_modelo = ?");
+            $stm->execute([$id]);
+            return $stm->fetch(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function actualizar($id, $nombre)
+    {
+        try {
+            $sql = "UPDATE modelos SET nombre = ? WHERE id_modelo = ?";
+            $this->pdo->prepare($sql)->execute([$nombre, $id]);
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function eliminar($id)
+    {
+        try {
+            $stm = $this->pdo->prepare("DELETE FROM modelos WHERE id_modelo = ?");
+            $stm->execute([$id]);
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
     }
 }

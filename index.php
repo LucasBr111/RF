@@ -2,10 +2,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require_once "config/database/database.php";
+require_once "config/app.php";
 
 error_reporting(0);
 $controller = isset($_GET['c']) ? $_GET['c'] : 'dashboard'; 
 $action = isset($_GET['a']) ? $_GET['a'] : 'index'; 
+
 
 $controllerFile = "controller/" . $controller . "Controller.php"; 
 

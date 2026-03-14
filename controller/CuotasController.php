@@ -136,5 +136,24 @@ class CuotasController {
         require_once 'view/cuotas/detalle.php';
         require_once 'view/layout/footer.php';
     }
+
+    public function imprimirRecibo() {
+        $id_cuota = $_GET['id'];
+        
+        // 1. Obtenemos los datos combinados
+        // Puedes poner esta función en el modelo que prefieras
+        $v = $this->model->obtenerDatosRecibo($id_cuota);
+
+        if (!$v) {
+            die("Error: No se encontraron datos para este recibo.");
+        }
+
+        // 2. Preparamos las variables que usará el archivo del recibo
+        $fecha = date("d/m/Y", strtotime($v->vencimiento));
+        
+        // 3. Incluimos el archivo que creamos antes (el del TCPDF)
+        // Asegúrate de que la ruta sea correcta
+        require_once 'view/informes/recibopdf.php';
+    }
      
 }

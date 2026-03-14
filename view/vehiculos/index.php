@@ -1,7 +1,7 @@
 <div class="container-fluid py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="fw-bold text-dark m-0">Inventario de Vehículos</h4>
-        <button onclick="abrirModalVehiculo()" class="btn-nuevo shadow-sm">
+        <button onclick="abrirModalVehiculo()" type="button" class="btn btn-primary px-4" >
             <i class="bi bi-car-front-fill me-2"></i>Registrar Vehículo
         </button>
     </div>

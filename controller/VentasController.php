@@ -95,13 +95,18 @@ class VentasController {
             $id_venta = $this->model->guardar_cabecera($id_cliente, $id_vehiculo, $data->venta);
 
             // 5. Guardar Cuotas (Modularizado)
-            foreach ($data->venta->cuotas as $cuota) {
+            foreach ($data->venta->cuotas as $item) {
+                $cuotaObjeto = new stdClass();
+                
+                $cuotaObjeto->numero = $item->numero;
+                $cuotaObjeto->monto  = $item->monto;
+                $cuotaObjeto->vencimiento  = $item->fecha; 
+                $cuotaObjeto->tipo   = $item->tipo;
+            
+                // Ahora enviamos el objeto ya cargado al modelo
                 $this->cuota->guardar(
                     $id_venta,
-                    $cuota->numero,
-                    $cuota->monto,
-                    $cuota->fecha,
-                    $cuota->tipo
+                    $cuotaObjeto
                 );
             }
 
@@ -115,21 +120,21 @@ class VentasController {
     }
 }
 
-    public function actualizar() {
-        if ($_POST) {
-            $data = (object)$_POST;
-            $res = $this->model->actualizar($data);
-            echo json_encode(['success' => $res]);
-        }
-    }
+    // public function actualizar() {
+    //     if ($_POST) {
+    //         $data = (object)$_POST;
+    //         // $res = $this->model->actualizar($data);
+    //         echo json_encode(['success' => $res]);
+    //     }
+    // }
 
-    public function anular() {
-        $id = $_GET['id'] ?? null;
-        if ($id) {
-            $res = $this->model->anular($id);
-            // Redireccionar o devolver JSON según prefieras
-            header("Location: index.php?c=venta&a=index");
-        }
+    // public function anular() {
+    //     $id = $_GET['id'] ?? null;
+    //     if ($id) {
+    //         $res = $this->model->anular($id);
+    //         // Redireccionar o devolver JSON según prefieras
+    //         header("Location: index.php?c=venta&a=index");
+    //     }
         
-    }
+    // }
 }

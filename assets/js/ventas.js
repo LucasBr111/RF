@@ -145,7 +145,7 @@ function guardarTodo() {
         cliente: {
             nombre: $('#cliente_nombre').val(),
             ci: $('#cliente_ci').val(),
-            tel: $('#cliente_tel').val(),
+            telefono: $('#cliente_tel').val(),
             codeudor: $('#codeudor_nombre').val(),
             codeudor_ci: $('#codeudor_ci').val(),
             ubicacion: $('#ubicacion').val()

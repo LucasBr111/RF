@@ -45,7 +45,7 @@
                            
                                 if (!empty($modelos)) {
                                     foreach ($modelos as $modelo): ?>
-                                        <option value="<?php echo htmlspecialchars($modelo->id); ?>">
+                                        <option value="<?php echo htmlspecialchars($modelo->id_modelo); ?>">
                                             <?php echo htmlspecialchars($modelo->nombre); ?>
                                         </option>
                                     <?php endforeach;
@@ -76,7 +76,7 @@
                         </div>
                         <div class="col-4">
                             <label class="small">Hasta</label>
-                            <input type="number" id="rango_fin" class="form-control" value="36">
+                            <input type="number" id="rango_fin" class="form-control" value="40">
                         </div>
                         <div class="col-4">
                             <label class="small">Mora %</label>

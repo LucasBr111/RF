@@ -23,7 +23,7 @@ $menus = [
         'section' => 'Gestión',
         'items' => [
             ['page' => 'cuotas',    'label' => 'Gestión de Cuotas', 'icon' => 'bi bi-wallet2',      'url' => 'index.php?c=cuotas'],
-            ['page' => 'cobros',    'label' => 'Cobros del Día',    'icon' => 'bi bi-cash-coin',    'url' => 'index.php?c=cobros'],
+            ['page' => 'pagos',    'label' => 'Cobros del Día',    'icon' => 'bi bi-cash-coin',    'url' => 'index.php?c=pagos'],
         ]
     ],
     [

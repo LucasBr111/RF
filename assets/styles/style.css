@@ -1,0 +1,142 @@
+/* ── Configuración de Paleta (Variables) ────────────────────── */
+:root {
+    --rf-primary: #00e676;       /* Verde acento principal */
+    --rf-accent: #00e676;        /* Azul funcional para botones */
+    --rf-bg-dark: #121417;       /* Fondo general */
+    --rf-card-bg: #1c1f23;       /* Fondo de tarjetas */
+    --rf-input-bg: #2a2e34;      /* Fondo de inputs */
+    
+    --rf-text-main: #ffffff;
+    --rf-text-muted: #a0a0a0;
+    
+    --rf-border-radius: 16px;
+    --rf-input-radius: 10px;
+    --rf-glass-border: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Estilos Base ──────────────────────────────────────────── */
+body {
+    background-color: var(--rf-bg-dark);
+    color: var(--rf-text-main);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* ── Tarjetas Estilo Bento ─────────────────────────────────── */
+.card-rf {
+    background-color: var(--rf-card-bg) !important;
+    border: 1px solid var(--rf-glass-border) !important;
+    border-radius: var(--rf-border-radius) !important;
+    padding: 1.5rem;
+    height: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    color: var(--rf-text-main);
+}
+
+.card-rf h5 {
+    color: var(--rf-primary) !important;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ── Formuarios e Inputs (Corrección de visibilidad) ───────── */
+.form-label {
+    color: var(--rf-text-muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.form-control, .form-select, .dataTables_filter input {
+    background-color: var(--rf-input-bg) !important;
+    border: 1px solid var(--rf-glass-border) !important;
+    border-radius: var(--rf-input-radius) !important;
+    color: var(--rf-text-main) !important;
+    padding: 0.7rem 1rem;
+}
+
+/* Fix para el borde y sombra al hacer foco */
+.form-control:focus, .form-select:focus {
+    border-color: var(--rf-primary) !important;
+    background-color: var(--rf-input-bg) !important;
+    color: var(--rf-text-main) !important;
+    box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.2) !important;
+    outline: none;
+}
+
+/* ── Tablas y DataTables (Corrección blanco sobre blanco) ──── */
+.table, .dataTable {
+    color: var(--rf-text-main) !important;
+    background-color: transparent !important;
+    border-color: var(--rf-glass-border) !important;
+    width: 100% !important;
+}
+
+.table td, .table th {
+    background-color: transparent !important;
+    color: var(--rf-text-main) !important;
+    border-bottom: 1px solid var(--rf-glass-border) !important;
+    padding: 1rem !important;
+    vertical-align: middle;
+}
+
+.table thead th {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    color: var(--rf-primary) !important;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+}
+
+/* ── Botones ───────────────────────────────────────────────── */
+.btn-primary {
+    background-color: var(--rf-accent) !important;
+    border: none !important;
+    border-radius: var(--rf-input-radius) !important;
+    padding: 0.7rem 1.5rem;
+    font-weight: 600;
+    color: white !important;
+}
+
+/* Botones de Exportación (DataTables) */
+.dt-buttons .btn {
+    background-color: var(--rf-input-bg) !important;
+    border: 1px solid var(--rf-glass-border) !important;
+    color: var(--rf-text-main) !important;
+    border-radius: 8px !important;
+    font-size: 0.8rem;
+}
+
+.dt-buttons .btn:hover {
+    background-color: var(--rf-primary) !important;
+    color: #000 !important;
+}
+
+/* ── Badges de Estado ──────────────────────────────────────── */
+.badge-rf {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.badge-rf.success { background: rgba(0, 230, 118, 0.15); color: #00e676; border: 1px solid rgba(0, 230, 118, 0.3); }
+.badge-rf.warning { background: rgba(255, 193, 7, 0.15); color: #ffc107; border: 1px solid rgba(255, 193, 7, 0.3); }
+.badge-rf.danger { background: rgba(255, 82, 82, 0.15); color: #ff5252; border: 1px solid rgba(255, 82, 82, 0.3); }
+
+
+/* Color para los placeholders en todos los navegadores */
+.form-control::placeholder,
+.form-select::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+    opacity: 1; /* Necesario para Firefox */
+}
+
+/* Específicos para Chrome/Safari/Edge si es necesario */
+.form-control::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+}

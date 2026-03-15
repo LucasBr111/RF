@@ -177,9 +177,38 @@ class Cuota {
     }
 
 
-    // ============================================================
-    //  AGREGAR AL MODELO: CuotasModel (o como lo llames)
-    // ============================================================
+    public function obtenerDatosRecibo($id_cuota) {
+        try {
+            $sql = "SELECT 
+                        c.id_cuota, 
+                        (SELECT COUNT(*) FROM cuotas WHERE id_venta = v.id_venta) as cant_cuotas,
+                        c.numero_cuota as numero, -- Cambiado de c.numero a c.numero_cuota
+                        p.monto_entregado as monto_cuota, 
+                        c.fecha_vencimiento as vencimiento, -- Cambiado a tu nombre real
+                        v.id_venta, 
+                        v.fecha_venta, 
+                        v.monto_total as total_venta, -- Cambiado de total_venta a monto_total
+                        cl.nombre as cliente_nombre, 
+                        cl.ci as cliente_ci, 
+                        cl.telefono as cliente_telefono,
+                        m.nombre as modelo_nombre, 
+                        vh.anho, 
+                        vh.color
+                    FROM cuotas c
+                    INNER JOIN pagos_historial p ON c.id_cuota = p.id_cuota
+                    INNER JOIN ventas v ON c.id_venta = v.id_venta
+                    INNER JOIN clientes cl ON v.id_cliente = cl.id_cliente
+                    INNER JOIN vehiculos vh ON v.id_vehiculo = vh.id_vehiculo
+                    INNER JOIN modelos m ON vh.id_modelo = m.id_modelo
+                    WHERE c.id_cuota = ?";
+    
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$id_cuota]);
+            return $stm->fetch(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
      
     /**
      * Devuelve datos generales de la venta (para el header del detalle).

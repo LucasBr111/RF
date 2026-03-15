@@ -1,107 +1,198 @@
-<div class="container-fluid py-4">
-    <div class="nav-wrapper mb-4">
-        <ul class="nav nav-pills nav-fill p-1 bg-surface border shadow-sm rounded-pill" id="pills-tab" role="tablist">
-            <li class="nav-item">
-                <button class="nav-link active rounded-pill fw-bold" data-bs-toggle="pill" data-bs-target="#tab-hoy">
-                    <i class="bi bi-calendar-event me-2"></i>Cobros de Hoy
+<?php
+// view/cobros/index.php
+// Variables: $cobrosHoy, $cobrosSemana, $cobrosMes (arrays de objetos)
+?>
+
+<div class="container-fluid py-3">
+
+    <!-- ── Nav pills ── -->
+    <div class="nav-wrapper mb-3">
+        <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-hoy" type="button">
+                    <i class="bi bi-calendar-event me-1"></i>Hoy
                 </button>
             </li>
-            <li class="nav-item">
-                <button class="nav-link rounded-pill fw-bold" data-bs-toggle="pill" data-bs-target="#tab-semana">
-                    <i class="bi bi-calendar-range me-2"></i>Esta Semana
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-semana" type="button">
+                    <i class="bi bi-calendar-range me-1"></i>Semana
                 </button>
             </li>
-            <li class="nav-item">
-                <button class="nav-link rounded-pill fw-bold" data-bs-toggle="pill" data-bs-target="#tab-mes">
-                    <i class="bi bi-calendar-check me-2"></i>Resumen Mensual
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-mes" type="button">
+                    <i class="bi bi-calendar-check me-1"></i>Mes
                 </button>
             </li>
         </ul>
     </div>
 
-    <div class="tab-content border-0">
+    <!-- ── Tab content ── -->
+    <div class="tab-content">
+
         <div class="tab-pane fade show active" id="tab-hoy">
-            <?php renderTablaCobros('tblHoy', $cobrosHoy); ?>
+            <?php renderTabCobros('tblHoy', $cobrosHoy); ?>
         </div>
 
         <div class="tab-pane fade" id="tab-semana">
-            <?php renderTablaCobros('tblSemana', $cobrosSemana); ?>
+            <?php renderTabCobros('tblSemana', $cobrosSemana); ?>
         </div>
 
         <div class="tab-pane fade" id="tab-mes">
-            <?php renderTablaCobros('tblMes', $cobrosMes); ?>
+            <?php renderTabCobros('tblMes', $cobrosMes); ?>
         </div>
+
     </div>
 </div>
 
-<?php 
-/** * Función para renderizar las tablas de forma consistente
+<?php
+/**
+ * Renderiza una pestaña de cobros:
+ *   - Header con total recaudado
+ *   - Cards mobile (PHP puro, siempre renderizadas)
+ *   - Tabla DataTable (visible solo en desktop)
  */
-function renderTablaCobros($id, $data) { 
-    $totalRecaudado = array_sum(array_column($data, 'monto_entregado'));
+function renderTabCobros(string $tableId, array $data): void {
+    $total = array_sum(array_column($data, 'monto_entregado'));
 ?>
-    <div class="card bg-surface border shadow-lg rounded-16 overflow-hidden">
-        <div class="card-header bg-transparent border-bottom d-flex justify-content-between align-items-center p-3">
-            <span class="res-label m-0 text-accent">Detalle de ingresos</span>
-            <div class="h5 m-0 fw-bold text-success">
-                Total: <span class="mono">Gs. <?= number_format($totalRecaudado, 0, ',', '.') ?></span>
-            </div>
+<div class="card-rf overflow-hidden">
+
+    <!-- Header con total -->
+    <div class="cobros-tab-header">
+        <span class="tab-label"><i class="bi bi-cash-stack me-2"></i>Detalle de ingresos</span>
+        <span class="tab-total">
+            Gs. <?= number_format($total, 0, ',', '.') ?>
+        </span>
+    </div>
+
+    <!-- ► CARDS MOBILE -->
+    <div class="mobile-cards-list" id="cards-<?= $tableId ?>">
+
+        <?php if (empty($data)): ?>
+        <div style="text-align:center; color:var(--rf-muted); padding:1.5rem; font-size:.85rem;">
+            <i class="bi bi-inbox me-2"></i>Sin cobros registrados.
         </div>
-        <div class="table-responsive table-responsive-mobile p-3">
-            <table class="table table-hover align-middle display nowrap w-100 datatable-custom" id="<?= $id ?>">
+        <?php else: ?>
+
+        <?php foreach ($data as $p): ?>
+        <div class="mc mc-cobro">
+
+            <!-- Nombre + hora -->
+            <div class="mc-top">
+                <span class="mc-title"><?= htmlspecialchars($p->cliente_nombre) ?></span>
+                <span class="mc-hora"><?= date('H:i', strtotime($p->created_at)) ?></span>
+            </div>
+
+            <!-- Info secundaria -->
+            <div class="mc-info">
+                <span>
+                    Cuota <strong style="color:var(--rf-text);"><?= str_pad($p->numero_cuota, 2, '0', STR_PAD_LEFT) ?></strong>
+                    &nbsp;·&nbsp; Venta <strong style="color:var(--rf-text);">#<?= $p->id_venta ?></strong>
+                </span>
+                <span class="badge-cuota hoy" style="font-size:.62rem; padding:.2rem .55rem;">
+                    <?= htmlspecialchars($p->metodo_pago) ?>
+                </span>
+            </div>
+
+            <!-- Monto + acciones -->
+            <div class="mc-foot" style="justify-content:space-between; align-items:center;">
+                <span class="mc-amount positive">
+                    Gs. <?= number_format($p->monto_entregado, 0, ',', '.') ?>
+                </span>
+                <a href="?c=cuotas&a=imprimirRecibo&id=<?= $p->id_cuota ?>"
+                   target="_blank"
+                   class="btn-accion-print"
+                   title="Imprimir recibo">
+                    <i class="bi bi-printer-fill"></i> Recibo
+                </a>
+            </div>
+
+        </div>
+        <?php endforeach; ?>
+
+        <?php endif; ?>
+    </div>
+
+    <!-- ► TABLA DESKTOP -->
+    <div class="table-card has-mobile-cards" style="border:none; border-radius:0;">
+        <div class="table-responsive p-2">
+            <table class="table table-hover" id="<?= $tableId ?>">
                 <thead>
                     <tr>
-                         <th>Venta #</th>
-                        <th>Hora/Fecha</th>
+                        <th>Hora / Fecha</th>
                         <th>Cliente</th>
-                       
+                        <th>Venta #</th>
                         <th>Cuota</th>
                         <th>Método</th>
-                        <th>Monto Entregado</th>
+                        <th>Monto</th>
                         <th class="text-center">Recibo</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($data as $p): ?>
+                    <?php if (empty($data)): ?>
                     <tr>
-                        <td data-label="Hora/Fecha" class="mono"><?= date('H:i | d/m', strtotime($p->created_at)) ?></td>
-                        <td data-label="Cliente" class="fw-bold"><?= htmlspecialchars($p->cliente_nombre) ?></td>
-                        <td data-label="Venta #"><span class="badge bg-dark border text-muted">#<?= $p->id_venta ?></span></td>
-                        <td data-label="Cuota">Cuota <?= str_pad($p->numero_cuota, 2, '0', STR_PAD_LEFT) ?></td>
-                        <td data-label="Método"><span class="badge-cuota hoy"><?= $p->metodo_pago ?></span></td>
-                        <td data-label="Monto" class="text-success fw-bold mono">Gs. <?= number_format($p->monto_entregado, 0, ',', '.') ?></td>
-                        <td data-label="Recibo" class="text-center">
-                            <a href="?c=cuotas&a=imprimirRecibo&id=<?= $p->id_cuota ?>" target="_blank" class="btn-accion-print">
+                        <td colspan="7" style="text-align:center; color:var(--rf-muted); padding:2rem;">
+                            <i class="bi bi-inbox me-2"></i>Sin cobros registrados.
+                        </td>
+                    </tr>
+                    <?php else: ?>
+                    <?php foreach ($data as $p): ?>
+                    <tr>
+                        <td class="font-mono" style="font-size:.8rem; color:var(--rf-muted);">
+                            <?= date('H:i | d/m', strtotime($p->created_at)) ?>
+                        </td>
+                        <td>
+                            <span class="cliente-link" style="font-weight:600;">
+                                <?= htmlspecialchars($p->cliente_nombre) ?>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge-rf primary">#<?= $p->id_venta ?></span>
+                        </td>
+                        <td style="font-family:var(--rf-font-mono); font-size:.82rem; color:var(--rf-muted);">
+                            Cuota <?= str_pad($p->numero_cuota, 2, '0', STR_PAD_LEFT) ?>
+                        </td>
+                        <td>
+                            <span class="badge-cuota hoy"><?= htmlspecialchars($p->metodo_pago) ?></span>
+                        </td>
+                        <td style="font-family:var(--rf-font-mono); font-weight:600; color:var(--rf-success);">
+                            Gs. <?= number_format($p->monto_entregado, 0, ',', '.') ?>
+                        </td>
+                        <td class="text-center">
+                            <a href="?c=cuotas&a=imprimirRecibo&id=<?= $p->id_cuota ?>"
+                               target="_blank"
+                               class="btn-accion-print">
                                 <i class="bi bi-printer-fill"></i>
                             </a>
                         </td>
                     </tr>
                     <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
     </div>
+
+</div>
 <?php } ?>
 
 <script>
-    $(document).ready(function() {
+$(document).ready(function () {
+
     const dtConfig = {
         language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
         pageLength: 10,
-        order: [[0, 'desc']], // Los más recientes primero
-        dom: 'Bfrtip',
-        buttons: ['excel', 'pdf'], // Opcional por si quieres exportar reportes
-        responsive: true
+        order: [[0, 'desc']],
+        dom: 'lrtip'
     };
 
-    // Inicializamos las 3 tablas
-    const tableHoy = $('#tblHoy').DataTable(dtConfig);
-    const tableSemana = $('#tblSemana').DataTable(dtConfig);
-    const tableMes = $('#tblMes').DataTable(dtConfig);
+    $('#tblHoy').DataTable(dtConfig);
+    $('#tblSemana').DataTable(dtConfig);
+    $('#tblMes').DataTable(dtConfig);
 
-    // CRITICO: Ajustar columnas al cambiar de pestaña
-    $('button[data-bs-toggle="pill"]').on('shown.bs.tab', function (event) {
-        $($.fn.dataTable.tables(true)).DataTable().columns.adjust().responsive.recalc();
+    // Ajustar columnas al cambiar de pestaña
+    $('button[data-bs-toggle="pill"]').on('shown.bs.tab', function () {
+        $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
     });
+
 });
 </script>

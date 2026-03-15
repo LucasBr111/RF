@@ -75,7 +75,23 @@
     </div>
 
 </div>
+<!-- ══════════════════════════════════════════════════════════
+     FILA 2 — Gráfico cobros + Resumen cartera
+══════════════════════════════════════════════════════════ -->
+<div class="row g-3 mb-4">
 
+    <!-- Gráfico últimos 6 meses -->
+    <div class="col-12 col-lg-7">
+        <div class="card-rf h-100">
+            <div class="card-header-rf">
+                <h2 class="card-title-rf">
+                    <i class="bi bi-bar-chart-line me-2 text-accent"></i>Cobros — últimos 6 meses
+                </h2>
+            </div>
+            <div class="card-body-rf">
+                <canvas id="chartCobros" height="100"></canvas>
+            </div>
+        </div>
 <!-- ── Stat Cards ────────────────────────────────────────────── -->
 <div class="row g-3 mb-4 row-stats-mobile">
 
@@ -119,6 +135,95 @@
     </div>
 
 </div>
+<!-- Resumen cartera -->
+<div class="col-12 col-lg-5">
+        <div class="card-rf h-100">
+            <div class="card-header-rf">
+                <h2 class="card-title-rf">
+                    <i class="bi bi-pie-chart me-2 text-accent"></i>Estado de cartera
+                </h2>
+            </div>
+            <div class="card-body-rf">
+
+                <?php
+                $pct_cobrado = $cartera->monto_total > 0
+                    ? round(($cartera->monto_cobrado / $cartera->monto_total) * 100)
+                    : 0;
+                ?>
+
+                <!-- Barra progreso -->
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-1" style="font-size:.75rem; color:var(--rf-muted);">
+                        <span>Cobrado del total</span>
+                        <span style="color:var(--rf-success); font-weight:700;"><?= $pct_cobrado ?>%</span>
+                    </div>
+                    <div class="prog-track">
+                        <div class="prog-bar" style="width:<?= $pct_cobrado ?>%"></div>
+                    </div>
+                </div>
+
+                <!-- Mini stats de cartera -->
+                <div class="row g-2 mt-1">
+
+                    <div class="col-6">
+                        <div style="background:var(--rf-surface2); border-radius:10px; padding:.8rem 1rem;">
+                            <div style="font-size:.65rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--rf-muted); margin-bottom:.3rem;">
+                                <i class="bi bi-check2-circle me-1" style="color:var(--rf-success);"></i>Pagadas
+                            </div>
+                            <div style="font-family:var(--rf-font-mono); font-size:1.4rem; font-weight:700; color:var(--rf-success); line-height:1;">
+                                <?= $cartera->pagadas ?>
+                            </div>
+                            <div style="font-size:.7rem; color:var(--rf-muted); margin-top:.2rem;">
+                                Gs. <?= number_format($cartera->monto_cobrado, 0, ',', '.') ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div style="background:var(--rf-surface2); border-radius:10px; padding:.8rem 1rem;">
+                            <div style="font-size:.65rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--rf-muted); margin-bottom:.3rem;">
+                                <i class="bi bi-hourglass-split me-1" style="color:var(--rf-warning);"></i>Pendientes
+                            </div>
+                            <div style="font-family:var(--rf-font-mono); font-size:1.4rem; font-weight:700; color:var(--rf-warning); line-height:1;">
+                                <?= $cartera->pendientes ?>
+                            </div>
+                            <div style="font-size:.7rem; color:var(--rf-muted); margin-top:.2rem;">
+                                Sin vencer
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div style="background:var(--rf-surface2); border-radius:10px; padding:.8rem 1rem;">
+                            <div style="font-size:.65rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--rf-muted); margin-bottom:.3rem;">
+                                <i class="bi bi-x-octagon me-1" style="color:var(--rf-danger);"></i>En mora
+                            </div>
+                            <div style="font-family:var(--rf-font-mono); font-size:1.4rem; font-weight:700; color:var(--rf-danger); line-height:1;">
+                                <?= $cartera->atrasadas ?>
+                            </div>
+                            <div style="font-size:.7rem; color:var(--rf-muted); margin-top:.2rem;">
+                                Gs. <?= number_format($cartera->monto_mora, 0, ',', '.') ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div style="background:var(--rf-surface2); border-radius:10px; padding:.8rem 1rem;">
+                            <div style="font-size:.65rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--rf-muted); margin-bottom:.3rem;">
+                                <i class="bi bi-collection me-1" style="color:var(--rf-accent);"></i>Total cuotas
+                            </div>
+                            <div style="font-family:var(--rf-font-mono); font-size:1.4rem; font-weight:700; color:var(--rf-accent); line-height:1;">
+                                <?= $cartera->total_cuotas ?>
+                            </div>
+                            <div style="font-size:.7rem; color:var(--rf-muted); margin-top:.2rem;">
+                                Gs. <?= number_format($cartera->monto_total, 0, ',', '.') ?>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
 <!-- ══════════════════════════════════════════════════════════
      FILA 4 — Últimos cobros (tabla completa)
@@ -187,6 +292,46 @@
         </div>
     </div>
 </div>
+ <!-- Últimos clientes registrados -->
+ <div class="col-12 col-lg-4">
+        <div class="card-rf h-100">
+            <div class="card-header-rf">
+                <h2 class="card-title-rf">
+                    <i class="bi bi-person-plus me-2 text-accent"></i>Nuevos clientes
+                </h2>
+                <a href="?c=clientes&a=index" class="btn-accion btn-ver" style="font-size:.75rem;">
+                    Ver todos <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+            <div class="card-body-rf">
+                <?php if (empty($ultimos_clientes)): ?>
+                    <p style="color:var(--rf-muted); font-size:.85rem; text-align:center; padding:1rem 0;">Sin registros.</p>
+                <?php else: ?>
+                <div style="display:flex; flex-direction:column; gap:.65rem;">
+                    <?php foreach ($ultimos_clientes as $c): ?>
+                    <div style="display:flex; align-items:center; gap:.75rem; padding:.65rem .75rem; background:var(--rf-surface2); border-radius:10px; border:1px solid var(--rf-border);">
+                        <div style="width:36px;height:36px;border-radius:50%;background:var(--rf-accent-dim);color:var(--rf-accent);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;flex-shrink:0;">
+                            <?= mb_strtoupper(mb_substr($c->nombre, 0, 1)) ?>
+                        </div>
+                        <div style="min-width:0; flex:1;">
+                            <div style="font-weight:600; font-size:.85rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <a href="?c=clientes&a=detalle&id=<?= $c->id_cliente ?>" class="cliente-link">
+                                    <?= htmlspecialchars($c->nombre) ?>
+                                </a>
+                            </div>
+                            <div style="font-size:.72rem; color:var(--rf-muted);">
+                                📱 <?= $c->telefono ?>
+                                <?php if ($c->total_ventas > 0): ?>
+                                    &nbsp;·&nbsp; <?= $c->total_ventas ?> venta(s)
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
 
 <!-- ══════════════════════════════════════════════════════════
      MODAL WHATSAPP (reutilizado desde cuotas)

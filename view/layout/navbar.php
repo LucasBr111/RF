@@ -105,18 +105,18 @@ $breadcrumbs = $breadcrumbs ?? []; // Array: [['label'=>'Inicio','url'=>'index.p
                     <div class="p-3 border-bottom bg-accent-dim">
                         <div class="row g-2 text-center">
                             <div class="col-6">
-                                <div class="small text-muted text-uppercase fw-bold" style="font-size:10px;">Vencen Hoy</div>
+                                <div class="small    text-uppercase fw-bold" style="font-size:10px;">Vencen Hoy</div>
                                 <div class="h5 mb-0 text-accent fw-bold" id="notif-vence-hoy">-</div>
                             </div>
                             <div class="col-6">
-                                <div class="small text-muted text-uppercase fw-bold" style="font-size:10px;">Cobro Estimado</div>
+                                <div class="small    text-uppercase fw-bold" style="font-size:10px;">Cobro Estimado</div>
                                 <div class="h5 mb-0 text-success fw-bold" id="notif-estimado">-</div>
                             </div>
                         </div>
                     </div>
                     <!-- Lista de atrasados -->
                     <div class="p-3">
-                        <h6 class="small text-muted text-uppercase fw-bold mb-3" style="font-size:10px;">Clientes Atrasados (Top 10)</h6>
+                        <h6 class="small    text-uppercase fw-bold mb-3" style="font-size:10px;">Clientes Atrasados (Top 10)</h6>
                         <div id="notif-atrasados-list" class="list-group list-group-flush">
                             <!-- Items dinámicos -->
                         </div>
@@ -148,15 +148,15 @@ document.getElementById('modalNotifications').addEventListener('show.bs.modal', 
             list.innerHTML = '';
 
             if (data.atrasados.length === 0) {
-                list.innerHTML = '<div class="text-center text-muted small py-3">No hay clientes atrasados</div>';
+                list.innerHTML = '<div class="text-center    small py-3">No hay clientes atrasados</div>';
             } else {
                 data.atrasados.forEach(c => {
                     const item = document.createElement('div');
                     item.className = 'list-group-item bg-transparent border-rf p-2 d-flex justify-content-between align-items-center';
                     item.innerHTML = `
                         <div style="min-width: 0;">
-                            <div class="text-truncate fw-bold small">${c.nombre}</div>
-                            <div class="text-muted" style="font-size: 11px;">${c.telefono}</div>
+                            <div style="font-size: 11px; color:white;" class="fw-bold small">${c.nombre}</div>
+                            <div class="  " style="font-size: 11px; color:white">${c.telefono }</div>
                         </div>
                         <div class="text-danger fw-bold small">₲ ${new Intl.NumberFormat('de-DE').format(c.deuda_total)}</div>
                     `;

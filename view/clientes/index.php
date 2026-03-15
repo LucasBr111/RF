@@ -6,20 +6,20 @@
         </button>
     </div>
 
-    <div class="row g-3 mb-4">
+    <div class="row g-3 mb-4 row-stats-mobile">
         <div class="col-md-6">
-            <div class="stat-card total">
-                <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
-                <div>
+            <div class="stat-card primary">
+                <div class="stat-icon blue"><i class="bi bi-people-fill"></i></div>
+                <div class="stat-info">
                     <div class="stat-label">Total Clientes</div>
                     <div class="stat-value"><?= $stats['total'] ?></div>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="stat-card info-blue">
-                <div class="stat-icon"><i class="bi bi-check-all"></i></div>
-                <div>
+            <div class="stat-card success">
+                <div class="stat-icon green"><i class="bi bi-check-all"></i></div>
+                <div class="stat-info">
                     <div class="stat-label">Clientes Activos</div>
                     <div class="stat-value"><?= $stats['activos'] ?></div>
                 </div>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="table-card shadow-lg">
-        <div class="table-responsive">
+        <div class="table-responsive table-responsive-mobile">
             <table class="table table-hover align-middle" id="tblClientes">
                 <thead>
                     <tr>
@@ -43,23 +43,25 @@
                 <tbody>
                     <?php foreach($clientes as $c): ?>
                     <tr>
-                        <td>
+                        <td data-label="Nombre">
                             <a href="?c=Clientes&a=detalle&id=<?=$c->id_cliente?>" class="cliente-link">
                                 <?= htmlspecialchars($c->nombre) ?>
                             </a>
                         </td>
-                        <td class="text-bold-dark"><?= $c->ci ?></td>
-                        <td><i class="bi bi-telephone me-1 text-primary"></i> <?= $c->telefono ?></td>
-                        <td><?= htmlspecialchars($c->ubicacion) ?></td>
-                        <td>
+                        <td data-label="C.I. / RUC" class="text-bold-dark"><?= $c->ci ?></td>
+                        <td data-label="Teléfono"><i class="bi bi-telephone me-1 text-primary"></i> <?= $c->telefono ?></td>
+                        <td data-label="Ubicación"><?= htmlspecialchars($c->ubicacion) ?></td>
+                        <td data-label="Codeudor">
                             <span class="badge bg-light text-dark border fw-normal">
                                 <?= $c->codeudor_nombre ?: 'No Tiene' ?>
                             </span>
                         </td>
-                        <td class="text-center">
-                            <button onclick='abrirModalCliente(<?= json_encode($c) ?>)' class="btn btn-dark btn-sm rounded-pill px-3">
-                                <i class="bi bi-pencil-square me-1"></i> Editar
-                            </button>
+                        <td data-label="Acciones" class="text-center">
+                            <div class="acciones-group">
+                                <button onclick='abrirModalCliente(<?= json_encode($c) ?>)' class="btn btn-dark btn-sm rounded-pill px-3">
+                                    <i class="bi bi-pencil-square me-1"></i> Editar
+                                </button>
+                            </div>
                         </td>
                     </tr>
                     <?php endforeach; ?>

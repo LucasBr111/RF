@@ -56,6 +56,19 @@
   <link rel="stylesheet" href="assets/styles/sidebar.css">
 <link rel="stylesheet" href="assets/styles/style.css">
 
+<?php
+require_once "model/Config.php";
+$appConfig = Config::get();
+$themeColor = $appConfig['theme_color'] ?? '#6c7fff';
+?>
+<style>
+  :root {
+    --rf-accent: <?= $themeColor ?> !important;
+    --rf-accent-dim: <?= $themeColor ?>26 !important; /* 15% opacity */
+    --rf-accent-glow: <?= $themeColor ?>59 !important; /* 35% opacity */
+  }
+</style>
+
 <!-- 1. jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 

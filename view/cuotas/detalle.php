@@ -485,7 +485,7 @@
 
     <!-- Tabla de cuotas -->
     <div class="cuotas-table-card">
-        <div class="table-responsive">
+        <div class="table-responsive table-responsive-mobile">
             <table class="table" id="tblDetalleCuotas">
                 <thead>
                     <tr>
@@ -536,35 +536,35 @@
                         }
                     ?>
                         <tr>
-                            <td><span class="cuota-num"><?= str_pad($c->numero_cuota, 2, '0', STR_PAD_LEFT) ?></span></td>
-                            <td>
+                            <td data-label="#"><span class="cuota-num"><?= str_pad($c->numero_cuota, 2, '0', STR_PAD_LEFT) ?></span></td>
+                            <td data-label="Vencimiento">
                                 <span class="mono"><?= date('d/m/Y', strtotime($c->fecha_vencimiento)) ?></span>
                             </td>
-                            <td>
+                            <td data-label="Monto Cuota">
                                 <span class="mono">Gs. <?= number_format($c->monto, 0, ',', '.') ?></span>
                             </td>
-                            <td>
+                            <td data-label="Pagado">
                                 <span class="mono txt-verde">Gs. <?= number_format($c->monto_pagado, 0, ',', '.') ?></span>
                             </td>
-                            <td>
+                            <td data-label="Saldo">
                                 <?php if ($saldo > 0): ?>
                                     <span class="mono txt-rojo">Gs. <?= number_format($saldo, 0, ',', '.') ?></span>
                                 <?php else: ?>
                                     <span class="mono txt-muted">—</span>
                                 <?php endif; ?>
                             </td>
-                            <td>
+                            <td data-label="Mora">
                                 <?php if ($mora > 0): ?>
                                     <span class="mora-chip">+Gs. <?= number_format($mora, 0, ',', '.') ?></span>
                                 <?php else: ?>
                                     <span class="mora-chip cero">—</span>
                                 <?php endif; ?>
                             </td>
-                            <td>
+                            <td data-label="Estado">
                                 <span class="badge-cuota <?= $badge ?>"><?= $badge_label ?></span>
                             </td>
-                            <td class="text-end">
-                                <div class="d-flex justify-content-end gap-2">
+                            <td data-label="Acciones" class="text-end">
+                                <div class="acciones-group d-flex justify-content-end gap-2">
                                     <?php if ($saldo > 0): ?>
                                         <button type="button"
                                             class="btn-accion-pago"

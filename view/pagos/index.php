@@ -47,7 +47,7 @@ function renderTablaCobros($id, $data) {
                 Total: <span class="mono">Gs. <?= number_format($totalRecaudado, 0, ',', '.') ?></span>
             </div>
         </div>
-        <div class="table-responsive p-3">
+        <div class="table-responsive table-responsive-mobile p-3">
             <table class="table table-hover align-middle display nowrap w-100 datatable-custom" id="<?= $id ?>">
                 <thead>
                     <tr>
@@ -64,14 +64,13 @@ function renderTablaCobros($id, $data) {
                 <tbody>
                     <?php foreach($data as $p): ?>
                     <tr>
-                         <td><span class="badge bg-dark border">#<?= $p->id_venta ?></span></td>
-                        <td class="mono"><?= date('H:i | d/m', strtotime($p->created_at)) ?></td>
-                        <td class="fw-bold"><?= htmlspecialchars($p->cliente_nombre) ?></td>
-                       
-                        <td>Cuota <?= str_pad($p->numero_cuota, 2, '0', STR_PAD_LEFT) ?></td>
-                        <td><span class="badge-cuota hoy"><?= $p->metodo_pago ?></span></td>
-                        <td class="text-success fw-bold mono">Gs. <?= number_format($p->monto_entregado, 0, ',', '.') ?></td>
-                        <td class="text-center">
+                        <td data-label="Hora/Fecha" class="mono"><?= date('H:i | d/m', strtotime($p->created_at)) ?></td>
+                        <td data-label="Cliente" class="fw-bold"><?= htmlspecialchars($p->cliente_nombre) ?></td>
+                        <td data-label="Venta #"><span class="badge bg-dark border text-muted">#<?= $p->id_venta ?></span></td>
+                        <td data-label="Cuota">Cuota <?= str_pad($p->numero_cuota, 2, '0', STR_PAD_LEFT) ?></td>
+                        <td data-label="Método"><span class="badge-cuota hoy"><?= $p->metodo_pago ?></span></td>
+                        <td data-label="Monto" class="text-success fw-bold mono">Gs. <?= number_format($p->monto_entregado, 0, ',', '.') ?></td>
+                        <td data-label="Recibo" class="text-center">
                             <a href="?c=cuotas&a=imprimirRecibo&id=<?= $p->id_cuota ?>" target="_blank" class="btn-accion-print">
                                 <i class="bi bi-printer-fill"></i>
                             </a>

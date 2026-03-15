@@ -6,11 +6,11 @@
         </button>
     </div>
 
-    <div class="row g-3 mb-4">
+    <div class="row g-3 mb-4 row-stats-mobile">
         <div class="col-md-12">
-            <div class="stat-card total">
-                <div class="stat-icon"><i class="bi bi-truck"></i></div>
-                <div>
+            <div class="stat-card primary">
+                <div class="stat-icon blue"><i class="bi bi-truck"></i></div>
+                <div class="stat-info">
                     <div class="stat-label">Stock de Vehículos</div>
                     <div class="stat-value"><?= $stats['total'] ?> Unidades</div>
                 </div>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="table-card shadow-lg">
-        <div class="table-responsive">
+        <div class="table-responsive table-responsive-mobile">
             <table class="table table-hover align-middle" id="tblVehiculos">
                 <thead>
                     <tr>
@@ -34,19 +34,21 @@
                 <tbody>
                     <?php foreach($vehiculos as $v): ?>
                     <tr>
-                        <td class="text-bold-dark"><?= htmlspecialchars($v->modelo_nombre) ?></td>
-                        <td><?= $v->anho ?></td>
-                        <td><span class="badge border text-dark" style="background: #f8fafc;"><?= $v->color ?></span></td>
-                        <td>
+                        <td data-label="Modelo" class="text-bold-dark"><?= htmlspecialchars($v->modelo_nombre) ?></td>
+                        <td data-label="Año"><?= $v->anho ?></td>
+                        <td data-label="Color"><span class="badge border text-dark" style="background: #f8fafc;"><?= $v->color ?></span></td>
+                        <td data-label="Propietario">
                             <span class="fw-bold">
                                 <?= !empty($v->propietario) ? htmlspecialchars($v->propietario) : 'R&F Automotores' ?>
                             </span>
                         </td>
-                        <td><?= $v->detalle ?: '—' ?></td>
-                        <td class="text-center">
-                            <button onclick='abrirModalVehiculo(<?= json_encode($v) ?>)' class="btn btn-dark btn-sm rounded-pill px-3">
-                                <i class="bi bi-pencil-square"></i> Editar
-                            </button>
+                        <td data-label="Detalle"><?= $v->detalle ?: '—' ?></td>
+                        <td data-label="Acciones" class="text-center">
+                            <div class="acciones-group">
+                                <button onclick='abrirModalVehiculo(<?= json_encode($v) ?>)' class="btn btn-dark btn-sm rounded-pill px-3">
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                </button>
+                            </div>
                         </td>
                     </tr>
                     <?php endforeach; ?>

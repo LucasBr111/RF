@@ -1,26 +1,20 @@
-<?php 
+<?php
+// controller/DashboardController.php
 
-/* require_once 'model/cuota.php';
-require_once 'model/cliente.php';
-require_once 'model/ingreso.php';
-require_once 'model/egreso.php'; */
+require_once 'model/Dashboard.php';
 
-class DashboardController{
+class DashboardController {
 
-    private $cuota;
-    private $cliente;
-    private $ingreso;
-    private $egreso;
-    public function __construct(){
-        // Inicializar los constructores de los modelos 
-        // $this->cuota = new cuota();
-        // $this->cliente = new cliente();
-        // $this->ingreso = new ingreso();
-        // $this->egreso = new egreso();
+    private $model;
+
+    public function __construct() {
+        $this->model = new Dashboard();
     }
 
-    public function index(){
+    public function index() {
+
         global $pageTitle, $activePage, $breadcrumbs;
+
         $pageTitle   = 'Dashboard';
         $activePage  = 'inicio';
         $breadcrumbs = [

@@ -33,38 +33,56 @@
 
     <div class="col-12 col-xl-8">
         <div class="row g-4">
-            <div class="col-md-6">
-                <div class="card-rf p-4 h-100">
-                    <h5 class="fw-bold mb-3 text-accent"><i class="bi bi-car-front me-2"></i>Vehículo</h5>
-                    <div class="row g-2">
-                        <div class="col-12">
-                            <select id="id_modelo" class="form-select select2">
-                                
-                               
-                                <?php 
-                           
-                                if (!empty($modelos)) {
-                                    foreach ($modelos as $modelo): ?>
-                                        <option value="<?php echo htmlspecialchars($modelo->id_modelo); ?>">
-                                            <?php echo htmlspecialchars($modelo->nombre); ?>
-                                        </option>
-                                    <?php endforeach;
-                                } ?>
-                                 <option value="OTRO">-- REGISTRAR NUEVO --</option>
-                            </select>
-                        </div>
-                        <div id="nuevo_modelo_div" class="col-12 d-none">
-                            <input type="text" id="nuevo_modelo_nombre" class="form-control border-accent" placeholder="Nombre del nuevo modelo">
-                        </div>
-                        <div class="col-6">
-                            <input type="number" id="anho" class="form-control" placeholder="Año">
-                        </div>
-                        <div class="col-6">
-                            <input type="text" id="color" class="form-control" placeholder="Color">
-                        </div>
-                    </div>
-                </div>
+<div class="col-md-6">
+    <div class="card-rf p-4 h-100">
+        <h5 class="fw-bold mb-3 text-accent">
+            <i class="bi bi-car-front me-2"></i>Vehículo
+        </h5>
+
+        <div class="row g-2">
+
+            <div class="col-12">
+                <select id="id_modelo" class="form-select select2">
+                    <?php 
+                    if (!empty($modelos)) {
+                        foreach ($modelos as $modelo): ?>
+                            <option value="<?php echo htmlspecialchars($modelo->id_modelo); ?>">
+                                <?php echo htmlspecialchars($modelo->nombre); ?>
+                            </option>
+                        <?php endforeach;
+                    } ?>
+                    <option value="OTRO">-- REGISTRAR NUEVO --</option>
+                </select>
             </div>
+
+            <div id="nuevo_modelo_div" class="col-12 d-none">
+                <input type="text" id="nuevo_modelo_nombre" class="form-control border-accent" placeholder="Nombre del nuevo modelo">
+            </div>
+
+            <div class="col-6">
+                <input type="number" id="anho" class="form-control" placeholder="Año">
+            </div>
+
+            <div class="col-6">
+                <input type="text" id="color" class="form-control" placeholder="Color">
+            </div>
+<br><br><br><br>
+            <!-- Observaciones -->
+            <div class="col-12 mt-2">
+                <h5 class="fw-bold mb-3 text-accent">
+                    <i class="bi bi-chat-left-text me-1"></i>Observaciones
+                </h5>
+                <textarea 
+                    id="observaciones" 
+                    class="form-control" 
+                    rows="3" 
+                    placeholder="Ej: Detalles del vehículo, estado, accesorios, comentarios del cliente...">
+                </textarea>
+            </div>
+
+        </div>
+    </div>
+</div>
 
             <div class="col-md-6">
                 <div class="card-rf p-4">
@@ -108,7 +126,7 @@
                         </div>
                         <div class="col-6">
                             <label class="small">Cant. Refuerzos</label>
-                            <input type="number" id="cant_refuerzos" class="form-control" value="3">
+                            <input type="number" id="cant_refuerzos" class="form-control" value="3" min="0">
                         </div>
                     </div>
                 </div>

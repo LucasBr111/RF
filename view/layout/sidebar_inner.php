@@ -32,6 +32,7 @@ $menus = [
             ['page' => 'clientes',  'label' => 'Clientes',          'icon' => 'bi bi-people',       'url' => 'index.php?c=clientes'],
             ['page' => 'ventas',    'label' => 'Registrar Venta',   'icon' => 'bi bi-cart-plus',    'url' => 'index.php?c=ventas'],
             ['page' => 'vehiculos', 'label' => 'Vehículos',         'icon' => 'bi bi-car-front',    'url' => 'index.php?c=vehiculos'],
+            ['page' => 'modelos',   'label' => 'Modelos de Vehículos', 'icon' => 'bi bi-card-list', 'url' => 'index.php?c=modelos'],
         ]
     ],
     [

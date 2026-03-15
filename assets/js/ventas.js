@@ -154,13 +154,15 @@ function guardarTodo() {
             id_modelo: $('#id_modelo').val(),
             nuevo_nombre: $('#nuevo_modelo_nombre').val(),
             anho: $('#anho').val(),
-            color: $('#color').val()
+            color: $('#color').val(),
+            detalle: $('#observaciones').val()
         },
         venta: {
        
             monto_total: cuotasGeneradas.reduce((sum, c) => sum + parseFloat(c.monto), 0),
             interes_mora: $('#interes_mora').val() || 0,
-            cuotas: cuotasGeneradas 
+            cuotas: cuotasGeneradas ,
+            observaciones: $('#observaciones').val()
         }
     };
 

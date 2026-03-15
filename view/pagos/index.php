@@ -51,9 +51,10 @@ function renderTablaCobros($id, $data) {
             <table class="table table-hover align-middle display nowrap w-100 datatable-custom" id="<?= $id ?>">
                 <thead>
                     <tr>
+                         <th>Venta #</th>
                         <th>Hora/Fecha</th>
                         <th>Cliente</th>
-                        <th>Venta #</th>
+                       
                         <th>Cuota</th>
                         <th>Método</th>
                         <th>Monto Entregado</th>

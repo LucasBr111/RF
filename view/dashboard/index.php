@@ -28,20 +28,20 @@ echo "Renderizando vista: Dashboard (index.php)"; // Debugging
 </div>
 
 <!-- ── Stat Cards ────────────────────────────────────────────── -->
-<div class="row g-3 mb-4">
+<div class="row g-3 mb-4 row-stats-mobile">
 
   <div class="col-12 col-sm-6 col-xl-3">
-    <div class="stat-card">
+    <div class="stat-card success">
       <div class="stat-icon green"><i class="bi bi-cash-coin"></i></div>
       <div class="stat-info">
-        <div class="stat-value">₲ 18.500.000</div>
+        <div class="stat-value">₲ 18.500k</div>
         <div class="stat-label">Cobros del día</div>
       </div>
     </div>
   </div>
 
   <div class="col-12 col-sm-6 col-xl-3">
-    <div class="stat-card">
+    <div class="stat-card primary">
       <div class="stat-icon blue"><i class="bi bi-people"></i></div>
       <div class="stat-info">
         <div class="stat-value">142</div>
@@ -51,17 +51,17 @@ echo "Renderizando vista: Dashboard (index.php)"; // Debugging
   </div>
 
   <div class="col-12 col-sm-6 col-xl-3">
-    <div class="stat-card">
+    <div class="stat-card warning">
       <div class="stat-icon amber"><i class="bi bi-hourglass-split"></i></div>
       <div class="stat-info">
         <div class="stat-value">23</div>
-        <div class="stat-label">Cuotas pendientes hoy</div>
+        <div class="stat-label">Vencen hoy</div>
       </div>
     </div>
   </div>
 
   <div class="col-12 col-sm-6 col-xl-3">
-    <div class="stat-card">
+    <div class="stat-card danger">
       <div class="stat-icon red"><i class="bi bi-exclamation-triangle"></i></div>
       <div class="stat-info">
         <div class="stat-value">7</div>

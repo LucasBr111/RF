@@ -128,6 +128,29 @@
    
    @media (max-width: 991.98px) {
      #main-content { padding: 16px; }
+
+     /* Row de stats mobile scrollable */
+     .row-stats-mobile {
+       display: flex;
+       flex-wrap: nowrap;
+       overflow-x: auto;
+       gap: 12px;
+       padding-bottom: 12px;
+       -webkit-overflow-scrolling: touch;
+       margin-bottom: 1rem;
+     }
+
+     .row-stats-mobile > [class*="col-"] {
+       flex: 0 0 240px;
+       max-width: 240px;
+     }
+
+     /* Touch targets */
+     .btn, .btn-rf, .form-control, .form-select, .nav-link-rf {
+       min-height: 48px;
+       display: flex;
+       align-items: center;
+     }
    }
    
    
@@ -582,10 +605,10 @@
      background: var(--rf-surface);
      border: 1px solid var(--rf-border);
      border-radius: var(--rf-radius-lg);
-     padding: 1.25rem 1.5rem;
+     padding: 1rem 1.25rem;
      display: flex;
      align-items: center;
-     gap: 1rem;
+     gap: 0.85rem;
      transition: transform var(--rf-transition), box-shadow var(--rf-transition);
      cursor: default;
    }
@@ -596,12 +619,12 @@
    }
    
    .stat-icon {
-     width: 52px; height: 52px;
-     border-radius: 14px;
+     width: 44px; height: 44px;
+     border-radius: 12px;
      display: flex;
      align-items: center;
      justify-content: center;
-     font-size: 1.4rem;
+     font-size: 1.2rem;
      flex-shrink: 0;
    }
    
@@ -628,9 +651,15 @@
    
    .stat-value {
      font-family: var(--rf-font-mono);
-     font-size: 2rem;
+     font-size: 1.5rem;
      font-weight: 700;
-     line-height: 1;
+     line-height: 1.1;
+   }
+
+   @media (max-width: 768px) {
+     .stat-value {
+       font-size: 1.25rem;
+     }
    }
    
    .stat-card.success .stat-value { color: var(--rf-success); }
@@ -1386,7 +1415,65 @@
    .font-mono { font-family: var(--rf-font-mono) !important; }
    
    /* ══════════════════════════════════════════════════════════════
-      21. ANIMACIONES
+      21. RESPONSIVE TABLES (CARDS ON MOBILE)
+   ══════════════════════════════════════════════════════════════ */
+
+   @media (max-width: 768px) {
+     .table-responsive-mobile table,
+     .table-responsive-mobile thead,
+     .table-responsive-mobile tbody,
+     .table-responsive-mobile th,
+     .table-responsive-mobile td,
+     .table-responsive-mobile tr {
+       display: block;
+     }
+
+     .table-responsive-mobile thead tr {
+       position: absolute;
+       top: -9999px;
+       left: -9999px;
+     }
+
+     .table-responsive-mobile tr {
+       border: 1px solid var(--rf-border);
+       border-radius: var(--rf-radius);
+       margin-bottom: 1rem;
+       background: var(--rf-surface);
+       padding: 0.5rem;
+     }
+
+     .table-responsive-mobile td {
+       border: none !important;
+       position: relative;
+       padding-left: 50% !important;
+       text-align: right !important;
+       min-height: 48px;
+       display: flex;
+       align-items: center;
+       justify-content: flex-end;
+     }
+
+     .table-responsive-mobile td:before {
+       position: absolute;
+       left: 12px;
+       width: 45%;
+       padding-right: 10px;
+       white-space: nowrap;
+       text-align: left;
+       font-weight: 700;
+       color: var(--rf-muted);
+       content: attr(data-label);
+       font-size: 0.65rem;
+       text-transform: uppercase;
+     }
+
+     .table-responsive-mobile .acciones-group {
+       justify-content: flex-end;
+     }
+   }
+
+   /* ══════════════════════════════════════════════════════════════
+      22. ANIMACIONES
    ══════════════════════════════════════════════════════════════ */
    
    @keyframes fadeInDown {

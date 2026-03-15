@@ -37,11 +37,11 @@
     </div>
 
     <!-- ===== STAT CARDS ===== -->
-    <div class="row g-3 mb-4">
+    <div class="row g-3 mb-4 row-stats-mobile">
         <div class="col-md-4">
-            <div class="stat-card hoy">
-                <div class="stat-icon"><i class="bi bi-clock-history"></i></div>
-                <div>
+            <div class="stat-card warning">
+                <div class="stat-icon amber"><i class="bi bi-clock-history"></i></div>
+                <div class="stat-info">
                     <div class="stat-label">Vence hoy</div>
                     <div class="stat-value"><?= $stats['vence_hoy'] ?></div>
                 </div>
@@ -49,18 +49,18 @@
         </div>
         <div class="col-md-4">
             <div class="stat-card atrasado">
-                <div class="stat-icon"><i class="bi bi-exclamation-triangle"></i></div>
-                <div>
+                <div class="stat-icon red"><i class="bi bi-exclamation-triangle"></i></div>
+                <div class="stat-info">
                     <div class="stat-label">Atrasados</div>
                     <div class="stat-value"><?= $stats['atrasados'] ?></div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="stat-card muy-atrasado">
-                <div class="stat-icon"><i class="bi bi-fire"></i></div>
-                <div>
-                    <div class="stat-label">ACUMULADO +2 MESESs</div>
+            <div class="stat-card danger">
+                <div class="stat-icon red"><i class="bi bi-fire"></i></div>
+                <div class="stat-info">
+                    <div class="stat-label">Morosos +2 Meses</div>
                     <div class="stat-value"><?= $stats['muy_atrasados'] ?></div>
                 </div>
             </div>
@@ -96,7 +96,7 @@
 
     <!-- ===== TABLA ===== -->
     <div class="table-card">
-        <div class="table-responsive">
+        <div class="table-responsive table-responsive-mobile">
             <table class="table table-hover" id="tblGestionCuotas">
                 <thead>
                     <tr>
@@ -126,28 +126,28 @@
                         elseif ($r->categoria == 'AL DIA')    $badge_icon = '✓';
                     ?>
                     <tr>
-                        <td>
+                        <td data-label="Cliente">
                             <a href="?c=clientes&a=detalle&id=<?= $r->id_cliente ?>" class="cliente-link">
                                 <?= htmlspecialchars($r->cliente_nombre) ?>
                             </a>
                         </td>
-                        <td style="color:var(--rf-muted);"><?= htmlspecialchars($r->modelo_nombre) ?></td>
-                        <td style="font-family:'JetBrains Mono',monospace; font-size:.8rem; color:var(--rf-muted);">
+                        <td data-label="Vehículo" style="color:var(--rf-muted);"><?= htmlspecialchars($r->modelo_nombre) ?></td>
+                        <td data-label="Próx. Vencimiento" style="font-family:'JetBrains Mono',monospace; font-size:.8rem; color:var(--rf-muted);">
                             <?= date("d/m/Y", strtotime($r->proximo_vencimiento)) ?>
                         </td>
-                        <td>
+                        <td data-label="Deuda Acumulada">
                             <span class="deuda-val">
                                 Gs. <?= number_format($r->monto_acumulado, 0, ",", ".") ?>
                             </span>
                         </td>
-                        <td>
+                        <td data-label="Estado">
                             <!-- valor para filtro DataTables — oculto, badge visible -->
                             <span style="display: none;"?= $r->categoria ?></span>
                             <span class="badge-estado <?= $badge_class ?>">
                                 <?= $badge_icon ?> <?= $r->categoria ?>
                             </span>
                         </td>
-                        <td>
+                        <td data-label="Acciones">
                             <div class="acciones-group">
                                 <!-- Ver cuotas -->
                                 <a href="?c=cuotas&a=detalle&id=<?= $r->id_venta ?>"

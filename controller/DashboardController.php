@@ -27,9 +27,19 @@ class DashboardController{
             ['label' => 'Inicio', 'url' => 'index.php'],
             ['label' => 'Dashboard'],
         ];
+
+        require_once 'model/Cuota.php';
+        $cuotaModel = new Cuota();
+        $notificaciones = $cuotaModel->getResumenNotificaciones();
        
         require_once 'view/layout/header.php';
         require_once 'view/dashboard/index.php';
         require_once 'view/layout/footer.php';
+    }
+
+    public function getNotificaciones() {
+        require_once 'model/Cuota.php';
+        $cuotaModel = new Cuota();
+        echo json_encode($cuotaModel->getResumenNotificaciones());
     }
 }

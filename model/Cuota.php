@@ -228,5 +228,44 @@ class Cuota {
         $stm->execute([$id_venta]);
         return $stm->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function getResumenNotificaciones() {
+        $hoy = date('Y-m-d');
+
+        // Clientes que vencen hoy
+        $sqlVenceHoy = "SELECT COUNT(DISTINCT vnt.id_venta) as total
+                        FROM cuotas cu
+                        INNER JOIN ventas vnt ON cu.id_venta = vnt.id_venta
+                        WHERE cu.fecha_vencimiento = ? AND (cu.monto - cu.monto_pagado) > 0";
+        $stm = $this->pdo->prepare($sqlVenceHoy);
+        $stm->execute([$hoy]);
+        $venceHoyCount = $stm->fetch(PDO::FETCH_OBJ)->total;
+
+        // Lista de clientes atrasados (vencieron antes de hoy y no pagaron)
+        $sqlAtrasados = "SELECT DISTINCT cl.nombre, cl.telefono, SUM(cu.monto - cu.monto_pagado) as deuda_total
+                         FROM cuotas cu
+                         INNER JOIN ventas vnt ON cu.id_venta = vnt.id_venta
+                         INNER JOIN clientes cl ON vnt.id_cliente = cl.id_cliente
+                         WHERE cu.fecha_vencimiento < ? AND (cu.monto - cu.monto_pagado) > 0
+                         GROUP BY vnt.id_venta
+                         LIMIT 10";
+        $stm = $this->pdo->prepare($sqlAtrasados);
+        $stm->execute([$hoy]);
+        $atrasados = $stm->fetchAll(PDO::FETCH_OBJ);
+
+        // Cobranza acumulada estimada para hoy (lo que vence hoy + lo atrasado)
+        $sqlEstimado = "SELECT SUM(cu.monto - cu.monto_pagado) as total
+                        FROM cuotas cu
+                        WHERE cu.fecha_vencimiento <= ? AND (cu.monto - cu.monto_pagado) > 0";
+        $stm = $this->pdo->prepare($sqlEstimado);
+        $stm->execute([$hoy]);
+        $totalEstimado = $stm->fetch(PDO::FETCH_OBJ)->total ?? 0;
+
+        return [
+            'vence_hoy_count' => $venceHoyCount,
+            'atrasados' => $atrasados,
+            'total_estimado' => $totalEstimado
+        ];
+    }
 }
 ?>

@@ -295,7 +295,7 @@
         <div class="cuota-card" data-categoria="<?= htmlspecialchars($r->categoria) ?>">
             <!-- Nombre + badge -->
             <div class="cc-top">
-                <a href="?c=clientes&a=detalle&id=<?= $r->id_cliente ?>" class="cc-nombre">
+                <a class="cc-nombre">
                     <?= htmlspecialchars($r->cliente_nombre) ?>
                 </a>
                 <span class="badge-estado <?= $badge_class ?>" style="font-size:.62rem; padding:.22rem .6rem; flex-shrink:0;">

@@ -50,7 +50,7 @@
         <div class="mc">
             <!-- Nombre -->
             <div class="mc-top">
-                <a href="?c=Clientes&a=detalle&id=<?= $c->id_cliente ?>" class="mc-title">
+                <a href="?c=cuotas&a=detalle&id=<?= $c->id_cliente ?>" class="mc-title">
                     <?= htmlspecialchars($c->nombre) ?>
                 </a>
                 <?php if ($c->codeudor_nombre): ?>

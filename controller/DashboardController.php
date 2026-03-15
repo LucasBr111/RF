@@ -21,40 +21,27 @@ class DashboardController {
             ['label' => 'Inicio', 'url' => 'index.php'],
             ['label' => 'Dashboard'],
         ];
-                // ── KPIs tarjetas superiores ──────────────────────────
-                $cobros_hoy        = $this->model->getCobrosHoy();
-                $clientes_activos  = $this->model->getTotalClientesActivos();
-                $cuotas_hoy        = $this->model->getCuotasVencenHoy();
-                $cuotas_vencidas   = $this->model->getCuotasVencidas();
-                $ingresos          = $this->model->getResumenIngresos();
-             
-        
-                // ── Tablas y listas ───────────────────────────────────
-                $ultimos_cobros    = $this->model->getUltimosCobros(10);
-                $cuotas_urgentes   = $this->model->getCuotasUrgentes(8);
-                $ultimos_clientes  = $this->model->getUltimosClientes(5);
-        
-                // ── Resumen cartera ───────────────────────────────────
-                $cartera           = $this->model->getResumenCartera();
-        
-                // ── Datos para gráfico (JSON para Chart.js) ───────────
-                $cobros_grafico    = $this->model->getCobrosPorMes();
-                $grafico_labels    = json_encode(array_column($cobros_grafico, 'mes_label'));
-                $grafico_totales   = json_encode(array_column($cobros_grafico, 'total'));
-                $grafico_cantidad  = json_encode(array_column($cobros_grafico, 'cantidad'));
 
-        require_once 'model/Cuota.php';
-        $cuotaModel = new Cuota();
-        $notificaciones = $cuotaModel->getResumenNotificaciones();
-       
+        // ── KPIs ──────────────────────────────────────────────
+        $cobros_hoy       = $this->model->getCobrosHoy();
+        $clientes_activos = $this->model->getTotalClientesActivos();
+        $cuotas_mes       = $this->model->getCuotasPendientesMes();
+        $mora             = $this->model->getCuotasEnMora();
+
+        // ── Cartera y listas ──────────────────────────────────
+        $cartera          = $this->model->getResumenCartera();
+        $ultimos_cobros   = $this->model->getUltimosCobros(10);
+        $cuotas_urgentes  = $this->model->getCuotasUrgentes(8);
+        $ultimos_clientes = $this->model->getUltimosClientes(5);
+
+        // ── Gráfico (JSON para Chart.js) ──────────────────────
+        $grafico_raw      = $this->model->getCobrosPorMes();
+        $grafico_labels   = json_encode(array_column($grafico_raw, 'mes_label'));
+        $grafico_totales  = json_encode(array_column($grafico_raw, 'total'));
+        $grafico_cantidad = json_encode(array_column($grafico_raw, 'cantidad'));
+
         require_once 'view/layout/header.php';
         require_once 'view/dashboard/index.php';
         require_once 'view/layout/footer.php';
-    }
-
-    public function getNotificaciones() {
-        require_once 'model/Cuota.php';
-        $cuotaModel = new Cuota();
-        echo json_encode($cuotaModel->getResumenNotificaciones());
     }
 }

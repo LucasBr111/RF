@@ -1,10 +1,15 @@
 <?php
 // view/dashboard/index.php
-// Variables disponibles desde el controller:
-// $cobros_hoy, $clientes_activos, $cuotas_hoy, $cuotas_vencidas
-// $ingresos, $egresos_mes, $cartera
-// $ultimos_cobros, $cuotas_urgentes, $ultimos_clientes
-// $grafico_labels, $grafico_totales, $grafico_cantidad
+// Variables del controller:
+// $cobros_hoy       → objeto {cantidad, total}
+// $clientes_activos → int
+// $cuotas_mes       → int  (pendientes este mes: hoy→fin de mes)
+// $mora             → objeto {cantidad, saldo_total, mora_total}
+// $cartera          → objeto {total_cuotas, pagadas, pendientes_mes, futuras, atrasadas, monto_total, monto_cobrado, monto_mora}
+// $ultimos_cobros   → array
+// $cuotas_urgentes  → array
+// $ultimos_clientes → array
+// $grafico_labels, $grafico_totales, $grafico_cantidad → JSON strings
 ?>
 
 <!-- Page header -->
@@ -18,11 +23,11 @@
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
-     FILA 1 — KPI Cards
+     FILA 1 — KPIs
 ══════════════════════════════════════════════════════════ -->
-<div class="row g-3 mb-4">
+<div class="row g-3 mb-4 row-stats-mobile">
 
-    <!-- Cobros del día -->
+    <!-- Cobros hoy -->
     <div class="col-12 col-sm-6 col-xl-3">
         <div class="stat-card success">
             <div class="stat-icon green"><i class="bi bi-cash-coin"></i></div>
@@ -31,7 +36,7 @@
                 <div class="stat-value">
                     <?= number_format($cobros_hoy->total, 0, ',', '.') ?>
                 </div>
-                <div class="stat-sub"><?= $cobros_hoy->cantidad ?> pago(s) registrado(s)</div>
+                <div class="stat-sub"><?= $cobros_hoy->cantidad ?> pago(s)</div>
             </div>
         </div>
     </div>
@@ -48,40 +53,41 @@
         </div>
     </div>
 
-    <!-- Cuotas que vencen hoy -->
+    <!-- Cuotas pendientes este mes -->
     <div class="col-12 col-sm-6 col-xl-3">
         <div class="stat-card warning">
             <div class="stat-icon amber"><i class="bi bi-hourglass-split"></i></div>
             <div>
-                <div class="stat-label">Vencen hoy</div>
-                <div class="stat-value"><?= $cuotas_hoy ?></div>
-                <div class="stat-sub">Cuotas a cobrar</div>
+                <div class="stat-label">Pendientes este mes</div>
+                <div class="stat-value"><?= $cuotas_mes ?></div>
+                <div class="stat-sub">Vencen antes del <?= date('d/m') ?></div>
             </div>
         </div>
     </div>
 
-    <!-- Cuotas vencidas / mora -->
+    <!-- En mora -->
     <div class="col-12 col-sm-6 col-xl-3">
         <div class="stat-card danger">
             <div class="stat-icon red"><i class="bi bi-exclamation-triangle"></i></div>
             <div>
                 <div class="stat-label">En mora</div>
-                <div class="stat-value"><?= $cuotas_vencidas->cantidad ?></div>
+                <div class="stat-value"><?= $mora->cantidad ?></div>
                 <div class="stat-sub">
-                    Gs. <?= number_format($cuotas_vencidas->mora_total, 0, ',', '.') ?>
+                    Gs. <?= number_format($mora->mora_total, 0, ',', '.') ?>
                 </div>
             </div>
         </div>
     </div>
 
 </div>
+
 <!-- ══════════════════════════════════════════════════════════
-     FILA 2 — Gráfico cobros + Resumen cartera
+     FILA 2 — Gráfico + Resumen cartera
 ══════════════════════════════════════════════════════════ -->
 <div class="row g-3 mb-4">
 
-    <!-- Gráfico últimos 6 meses -->
-    <div class="col-12 col-lg-7">
+    <!-- Gráfico -->
+<!--     <div class="col-12 col-lg-7">
         <div class="card-rf h-100">
             <div class="card-header-rf">
                 <h2 class="card-title-rf">
@@ -89,54 +95,13 @@
                 </h2>
             </div>
             <div class="card-body-rf">
-                <canvas id="chartCobros" height="100"></canvas>
+                <canvas id="chartCobros" height="110"></canvas>
             </div>
         </div>
-<!-- ── Stat Cards ────────────────────────────────────────────── -->
-<div class="row g-3 mb-4 row-stats-mobile">
+    </div> -->
 
-  <div class="col-12 col-sm-6 col-xl-3">
-    <div class="stat-card success">
-      <div class="stat-icon green"><i class="bi bi-cash-coin"></i></div>
-      <div class="stat-info">
-        <div class="stat-value">₲ 18.500k</div>
-        <div class="stat-label">Cobros del día</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-12 col-sm-6 col-xl-3">
-    <div class="stat-card primary">
-      <div class="stat-icon blue"><i class="bi bi-people"></i></div>
-      <div class="stat-info">
-        <div class="stat-value">142</div>
-        <div class="stat-label">Clientes activos</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-12 col-sm-6 col-xl-3">
-    <div class="stat-card warning">
-      <div class="stat-icon amber"><i class="bi bi-hourglass-split"></i></div>
-      <div class="stat-info">
-        <div class="stat-value">23</div>
-        <div class="stat-label">Vencen hoy</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-12 col-sm-6 col-xl-3">
-    <div class="stat-card danger">
-      <div class="stat-icon red"><i class="bi bi-exclamation-triangle"></i></div>
-      <div class="stat-info">
-        <div class="stat-value">7</div>
-        <div class="stat-label">Cuotas vencidas</div>
-      </div>
-    </div>
-
-</div>
-<!-- Resumen cartera -->
-<div class="col-12 col-lg-5">
+    <!-- Cartera -->
+    <div class="col-12 col-lg-5">
         <div class="card-rf h-100">
             <div class="card-header-rf">
                 <h2 class="card-title-rf">
@@ -146,34 +111,32 @@
             <div class="card-body-rf">
 
                 <?php
-                $pct_cobrado = $cartera->monto_total > 0
+                $pct = $cartera->monto_total > 0
                     ? round(($cartera->monto_cobrado / $cartera->monto_total) * 100)
                     : 0;
                 ?>
 
-                <!-- Barra progreso -->
                 <div class="mb-3">
                     <div class="d-flex justify-content-between mb-1" style="font-size:.75rem; color:var(--rf-muted);">
-                        <span>Cobrado del total</span>
-                        <span style="color:var(--rf-success); font-weight:700;"><?= $pct_cobrado ?>%</span>
+                        <span>Cobrado del total financiado</span>
+                        <span style="color:var(--rf-success); font-weight:700;"><?= $pct ?>%</span>
                     </div>
                     <div class="prog-track">
-                        <div class="prog-bar" style="width:<?= $pct_cobrado ?>%"></div>
+                        <div class="prog-bar" style="width:<?= $pct ?>%"></div>
                     </div>
                 </div>
 
-                <!-- Mini stats de cartera -->
-                <div class="row g-2 mt-1">
+                <div class="row g-2">
 
                     <div class="col-6">
                         <div style="background:var(--rf-surface2); border-radius:10px; padding:.8rem 1rem;">
-                            <div style="font-size:.65rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--rf-muted); margin-bottom:.3rem;">
+                            <div style="font-size:.62rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--rf-muted); margin-bottom:.3rem;">
                                 <i class="bi bi-check2-circle me-1" style="color:var(--rf-success);"></i>Pagadas
                             </div>
-                            <div style="font-family:var(--rf-font-mono); font-size:1.4rem; font-weight:700; color:var(--rf-success); line-height:1;">
+                            <div style="font-family:var(--rf-font-mono); font-size:1.35rem; font-weight:700; color:var(--rf-success); line-height:1;">
                                 <?= $cartera->pagadas ?>
                             </div>
-                            <div style="font-size:.7rem; color:var(--rf-muted); margin-top:.2rem;">
+                            <div style="font-size:.68rem; color:var(--rf-muted); margin-top:.25rem;">
                                 Gs. <?= number_format($cartera->monto_cobrado, 0, ',', '.') ?>
                             </div>
                         </div>
@@ -181,27 +144,27 @@
 
                     <div class="col-6">
                         <div style="background:var(--rf-surface2); border-radius:10px; padding:.8rem 1rem;">
-                            <div style="font-size:.65rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--rf-muted); margin-bottom:.3rem;">
-                                <i class="bi bi-hourglass-split me-1" style="color:var(--rf-warning);"></i>Pendientes
+                            <div style="font-size:.62rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--rf-muted); margin-bottom:.3rem;">
+                                <i class="bi bi-hourglass-split me-1" style="color:var(--rf-warning);"></i>Este mes
                             </div>
-                            <div style="font-family:var(--rf-font-mono); font-size:1.4rem; font-weight:700; color:var(--rf-warning); line-height:1;">
-                                <?= $cartera->pendientes ?>
+                            <div style="font-family:var(--rf-font-mono); font-size:1.35rem; font-weight:700; color:var(--rf-warning); line-height:1;">
+                                <?= $cartera->pendientes_mes ?>
                             </div>
-                            <div style="font-size:.7rem; color:var(--rf-muted); margin-top:.2rem;">
-                                Sin vencer
+                            <div style="font-size:.68rem; color:var(--rf-muted); margin-top:.25rem;">
+                                Por vencer
                             </div>
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div style="background:var(--rf-surface2); border-radius:10px; padding:.8rem 1rem;">
-                            <div style="font-size:.65rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--rf-muted); margin-bottom:.3rem;">
+                            <div style="font-size:.62rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--rf-muted); margin-bottom:.3rem;">
                                 <i class="bi bi-x-octagon me-1" style="color:var(--rf-danger);"></i>En mora
                             </div>
-                            <div style="font-family:var(--rf-font-mono); font-size:1.4rem; font-weight:700; color:var(--rf-danger); line-height:1;">
+                            <div style="font-family:var(--rf-font-mono); font-size:1.35rem; font-weight:700; color:var(--rf-danger); line-height:1;">
                                 <?= $cartera->atrasadas ?>
                             </div>
-                            <div style="font-size:.7rem; color:var(--rf-muted); margin-top:.2rem;">
+                            <div style="font-size:.68rem; color:var(--rf-muted); margin-top:.25rem;">
                                 Gs. <?= number_format($cartera->monto_mora, 0, ',', '.') ?>
                             </div>
                         </div>
@@ -209,13 +172,13 @@
 
                     <div class="col-6">
                         <div style="background:var(--rf-surface2); border-radius:10px; padding:.8rem 1rem;">
-                            <div style="font-size:.65rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--rf-muted); margin-bottom:.3rem;">
+                            <div style="font-size:.62rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--rf-muted); margin-bottom:.3rem;">
                                 <i class="bi bi-collection me-1" style="color:var(--rf-accent);"></i>Total cuotas
                             </div>
-                            <div style="font-family:var(--rf-font-mono); font-size:1.4rem; font-weight:700; color:var(--rf-accent); line-height:1;">
+                            <div style="font-family:var(--rf-font-mono); font-size:1.35rem; font-weight:700; color:var(--rf-accent); line-height:1;">
                                 <?= $cartera->total_cuotas ?>
                             </div>
-                            <div style="font-size:.7rem; color:var(--rf-muted); margin-top:.2rem;">
+                            <div style="font-size:.68rem; color:var(--rf-muted); margin-top:.25rem;">
                                 Gs. <?= number_format($cartera->monto_total, 0, ',', '.') ?>
                             </div>
                         </div>
@@ -224,9 +187,142 @@
                 </div>
             </div>
         </div>
+    </div>
+
+</div>
 
 <!-- ══════════════════════════════════════════════════════════
-     FILA 4 — Últimos cobros (tabla completa)
+     FILA 3 — Alertas urgentes + Últimos clientes
+══════════════════════════════════════════════════════════ -->
+<div class="row g-3 mb-4">
+
+    <!-- Cuotas urgentes -->
+    <div class="col-12 col-lg-8">
+        <div class="card-rf">
+            <div class="card-header-rf">
+                <h2 class="card-title-rf">
+                    <i class="bi bi-bell me-2" style="color:var(--rf-danger);"></i>Cobros urgentes
+                </h2>
+                <a href="?c=cuotas&a=index" class="btn-accion btn-ver" style="font-size:.75rem;">
+                    Ver todos <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+            <div class="card-body-rf p-0">
+                <div class="table-responsive">
+                    <table class="table" style="margin:0;">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Vehículo</th>
+                                <th>Vencimiento</th>
+                                <th>Saldo</th>
+                                <th>Atraso</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($cuotas_urgentes)): ?>
+                            <tr>
+                                <td colspan="6" style="text-align:center; color:var(--rf-muted); padding:2rem;">
+                                    <i class="bi bi-check-circle me-2" style="color:var(--rf-success);"></i>
+                                    Sin cobros urgentes
+                                </td>
+                            </tr>
+                            <?php else: ?>
+                            <?php foreach ($cuotas_urgentes as $u):
+                                $dias = (int) $u->dias_atraso;
+                                if ($dias == 0)     { $bc = 'hoy';          $bl = '🕐 Hoy'; }
+                                elseif ($dias >= 60) { $bc = 'muy-atrasado'; $bl = '🔴 ' . $dias . 'd'; }
+                                else                 { $bc = 'atrasado';     $bl = '⚠ ' . $dias . 'd'; }
+                            ?>
+                            <tr>
+                                <td>
+                                    <a href="?c=clientes&a=detalle&id=<?= $u->id_cliente ?>" class="cliente-link">
+                                        <?= htmlspecialchars($u->cliente_nombre) ?>
+                                    </a>
+                                </td>
+                                <td style="color:var(--rf-muted); font-size:.82rem;"><?= htmlspecialchars($u->modelo_nombre) ?></td>
+                                <td class="font-mono" style="font-size:.8rem; color:var(--rf-muted);">
+                                    <?= date('d/m/Y', strtotime($u->fecha_vencimiento)) ?>
+                                </td>
+                                <td class="font-mono" style="font-weight:600; color:var(--rf-danger);">
+                                    Gs. <?= number_format($u->saldo_pendiente, 0, ',', '.') ?>
+                                </td>
+                                <td>
+                                    <span class="badge-estado <?= $bc ?>"><?= $bl ?></span>
+                                </td>
+                                <td>
+                                    <div class="acciones-group">
+                                        <a href="?c=cuotas&a=detalle&id=<?= $u->id_venta ?>" class="btn-accion btn-ver">
+                                            <i class="bi bi-list-check"></i>
+                                        </a>
+                                        <button type="button" class="btn-accion btn-wa"
+                                            onclick="abrirModalWA(
+                                                '<?= addslashes($u->cliente_nombre) ?>',
+                                                '<?= $u->telefono ?>',
+                                                'Gs. <?= number_format($u->saldo_pendiente, 0, ',', '.') ?>',
+                                                '<?= date('d/m/Y', strtotime($u->fecha_vencimiento)) ?>'
+                                            )">
+                                            <i class="bi bi-whatsapp"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Últimos clientes -->
+    <div class="col-12 col-lg-4">
+        <div class="card-rf h-100">
+            <div class="card-header-rf">
+                <h2 class="card-title-rf">
+                    <i class="bi bi-person-plus me-2 text-accent"></i>Nuevos clientes
+                </h2>
+                <a href="?c=clientes&a=index" class="btn-accion btn-ver" style="font-size:.75rem;">
+                    Ver todos <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+            <div class="card-body-rf">
+                <?php if (empty($ultimos_clientes)): ?>
+                    <p style="color:var(--rf-muted); font-size:.85rem; text-align:center; padding:1rem 0;">Sin registros.</p>
+                <?php else: ?>
+                <div style="display:flex; flex-direction:column; gap:.6rem;">
+                    <?php foreach ($ultimos_clientes as $c): ?>
+                    <div style="display:flex; align-items:center; gap:.75rem; padding:.6rem .75rem; background:var(--rf-surface2); border-radius:10px; border:1px solid var(--rf-border);">
+                        <div style="width:34px;height:34px;border-radius:50%;background:var(--rf-accent-dim);color:var(--rf-accent);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;flex-shrink:0;">
+                            <?= mb_strtoupper(mb_substr($c->nombre, 0, 1)) ?>
+                        </div>
+                        <div style="min-width:0; flex:1;">
+                            <div style="font-weight:600; font-size:.84rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <a href="?c=clientes&a=detalle&id=<?= $c->id_cliente ?>" class="cliente-link">
+                                    <?= htmlspecialchars($c->nombre) ?>
+                                </a>
+                            </div>
+                            <div style="font-size:.7rem; color:var(--rf-muted);">
+                                📱 <?= $c->telefono ?>
+                                <?php if ($c->total_ventas > 0): ?>
+                                &nbsp;·&nbsp; <?= $c->total_ventas ?> venta(s)
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     FILA 4 — Últimos cobros
 ══════════════════════════════════════════════════════════ -->
 <div class="card-rf mb-4">
     <div class="card-header-rf">
@@ -245,9 +341,9 @@
                         <th>Cliente</th>
                         <th>Vehículo</th>
                         <th>Cuota</th>
-                        <th>Monto pagado</th>
+                        <th>Monto</th>
+                        <th>Método</th>
                         <th>Fecha pago</th>
-                        <th>Vencía</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -267,20 +363,20 @@
                             </a>
                         </td>
                         <td style="color:var(--rf-muted); font-size:.82rem;"><?= htmlspecialchars($c->modelo_nombre) ?></td>
-                        <td style="font-family:var(--rf-font-mono); font-size:.8rem; color:var(--rf-muted);">
+                        <td class="font-mono" style="font-size:.8rem; color:var(--rf-muted);">
                             <?= str_pad($c->numero_cuota, 2, '0', STR_PAD_LEFT) ?> / <?= $c->total_cuotas ?>
                         </td>
-                        <td style="font-family:var(--rf-font-mono); font-weight:600; color:var(--rf-success);">
-                            Gs. <?= number_format($c->monto_cuota, 0, ',', '.') ?>
-                        </td>
-                        <td style="font-family:var(--rf-font-mono); font-size:.8rem;">
-                            <?= date('d/m/Y', strtotime($c->fecha_pago)) ?>
-                        </td>
-                        <td style="font-family:var(--rf-font-mono); font-size:.8rem; color:var(--rf-muted);">
-                            <?= date('d/m/Y', strtotime($c->fecha_vencimiento)) ?>
+                        <td class="font-mono" style="font-weight:600; color:var(--rf-success);">
+                            Gs. <?= number_format($c->monto_entregado, 0, ',', '.') ?>
                         </td>
                         <td>
-                            <a href="?c=cuotas&a=detalle&id=<?= $c->id_venta ?>" class="btn-accion btn-ver" title="Ver cuotas">
+                            <span class="badge-rf primary" style="font-size:.68rem;"><?= htmlspecialchars($c->metodo_pago) ?></span>
+                        </td>
+                        <td class="font-mono" style="font-size:.8rem; color:var(--rf-muted);">
+                            <?= date('d/m/Y', strtotime($c->fecha_pago)) ?>
+                        </td>
+                        <td>
+                            <a href="?c=cuotas&a=detalle&id=<?= $c->id_venta ?>" class="btn-accion btn-ver">
                                 <i class="bi bi-list-check"></i>
                             </a>
                         </td>
@@ -292,56 +388,14 @@
         </div>
     </div>
 </div>
- <!-- Últimos clientes registrados -->
- <div class="col-12 col-lg-4">
-        <div class="card-rf h-100">
-            <div class="card-header-rf">
-                <h2 class="card-title-rf">
-                    <i class="bi bi-person-plus me-2 text-accent"></i>Nuevos clientes
-                </h2>
-                <a href="?c=clientes&a=index" class="btn-accion btn-ver" style="font-size:.75rem;">
-                    Ver todos <i class="bi bi-arrow-right ms-1"></i>
-                </a>
-            </div>
-            <div class="card-body-rf">
-                <?php if (empty($ultimos_clientes)): ?>
-                    <p style="color:var(--rf-muted); font-size:.85rem; text-align:center; padding:1rem 0;">Sin registros.</p>
-                <?php else: ?>
-                <div style="display:flex; flex-direction:column; gap:.65rem;">
-                    <?php foreach ($ultimos_clientes as $c): ?>
-                    <div style="display:flex; align-items:center; gap:.75rem; padding:.65rem .75rem; background:var(--rf-surface2); border-radius:10px; border:1px solid var(--rf-border);">
-                        <div style="width:36px;height:36px;border-radius:50%;background:var(--rf-accent-dim);color:var(--rf-accent);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;flex-shrink:0;">
-                            <?= mb_strtoupper(mb_substr($c->nombre, 0, 1)) ?>
-                        </div>
-                        <div style="min-width:0; flex:1;">
-                            <div style="font-weight:600; font-size:.85rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                                <a href="?c=clientes&a=detalle&id=<?= $c->id_cliente ?>" class="cliente-link">
-                                    <?= htmlspecialchars($c->nombre) ?>
-                                </a>
-                            </div>
-                            <div style="font-size:.72rem; color:var(--rf-muted);">
-                                📱 <?= $c->telefono ?>
-                                <?php if ($c->total_ventas > 0): ?>
-                                    &nbsp;·&nbsp; <?= $c->total_ventas ?> venta(s)
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
-                <?php endif; ?>
-            </div>
-        </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     MODAL WHATSAPP (reutilizado desde cuotas)
-══════════════════════════════════════════════════════════ -->
+<!-- Modal WhatsApp -->
 <div class="modal fade" id="modalWA" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width:480px;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <span style="color:#25d366;font-size:1.2rem;"><i class="bi bi-whatsapp"></i></span>
+                    <i class="bi bi-whatsapp" style="color:#25d366; font-size:1.1rem;"></i>
                     Enviar recordatorio
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
@@ -360,7 +414,7 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn-cancelar" data-bs-dismiss="modal">Cancelar</button>
-                <a href="#" id="wa-link" target="_blank" class="btn-wa-send" onclick="$('#modalWA').modal('hide')">
+                <a href="#" id="wa-link" target="_blank" class="btn-wa-send">
                     <i class="bi bi-whatsapp"></i> Abrir en WhatsApp
                 </a>
             </div>
@@ -368,23 +422,20 @@
     </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     SCRIPTS
-══════════════════════════════════════════════════════════ -->
 <script>
 $(document).ready(function () {
 
-    // ── DataTable últimos cobros ──
-    if ($('#tblCobros tbody tr td').length > 1) {
+    // Tabla últimos cobros
+    if ($('#tblCobros tbody tr').length && $('#tblCobros tbody tr td').length > 1) {
         $('#tblCobros').DataTable({
             language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
             pageLength: 10,
             dom: 'lrtip',
-            order: [[4, 'desc']]
+            order: [[5, 'desc']]
         });
     }
 
-    // ── Chart.js — cobros por mes ──
+    // Chart.js — cobros por mes
     const ctx = document.getElementById('chartCobros');
     if (ctx) {
         new Chart(ctx, {
@@ -396,7 +447,7 @@ $(document).ready(function () {
                         label: 'Total cobrado (Gs.)',
                         data: <?= $grafico_totales ?>,
                         backgroundColor: 'rgba(108,127,255,0.25)',
-                        borderColor: 'rgba(108,127,255,0.9)',
+                        borderColor: 'rgba(108,127,255,0.85)',
                         borderWidth: 2,
                         borderRadius: 6,
                         yAxisID: 'y'
@@ -406,7 +457,7 @@ $(document).ready(function () {
                         data: <?= $grafico_cantidad ?>,
                         type: 'line',
                         borderColor: '#22c55e',
-                        backgroundColor: 'rgba(34,197,94,0.1)',
+                        backgroundColor: 'rgba(34,197,94,0.08)',
                         borderWidth: 2,
                         pointBackgroundColor: '#22c55e',
                         pointRadius: 4,
@@ -420,17 +471,12 @@ $(document).ready(function () {
                 responsive: true,
                 interaction: { mode: 'index', intersect: false },
                 plugins: {
-                    legend: {
-                        labels: { color: '#7b82a0', font: { size: 12 } }
-                    },
+                    legend: { labels: { color: '#7b82a0', font: { size: 12 } } },
                     tooltip: {
                         callbacks: {
-                            label: function(ctx) {
-                                if (ctx.datasetIndex === 0) {
-                                    return ' Gs. ' + Number(ctx.raw).toLocaleString('es-PY');
-                                }
-                                return ' ' + ctx.raw + ' cobro(s)';
-                            }
+                            label: (c) => c.datasetIndex === 0
+                                ? ' Gs. ' + Number(c.raw).toLocaleString('es-PY')
+                                : ' ' + c.raw + ' cobro(s)'
                         }
                     }
                 },
@@ -443,7 +489,7 @@ $(document).ready(function () {
                         position: 'left',
                         ticks: {
                             color: '#7b82a0', font: { size: 11 },
-                            callback: v => 'Gs. ' + (v/1000000).toFixed(1) + 'M'
+                            callback: v => 'Gs. ' + (v / 1000000).toFixed(1) + 'M'
                         },
                         grid: { color: 'rgba(255,255,255,0.04)' }
                     },
@@ -458,7 +504,6 @@ $(document).ready(function () {
     }
 });
 
-// ── Modal WhatsApp ──
 function abrirModalWA(nombre, telefono, deuda, vencimiento) {
     $('#wa-nombre').text(nombre);
     $('#wa-telefono').text(telefono);

@@ -37,7 +37,7 @@ $breadcrumbs = $breadcrumbs ?? []; // Array: [['label'=>'Inicio','url'=>'index.p
   <!-- ── Título / Breadcrumb ───────────────────────────────── -->
   <div class="flex-grow-1 d-flex flex-column justify-content-center" style="min-width:0;">
     <span class="navbar-brand-text text-truncate">
-      R&amp;<span>F</span> Automotores
+      R<span>&amp</span>F<span> Automotores</span>
     </span>
     <?php if (!empty($breadcrumbs)): ?>
       <nav aria-label="breadcrumb" class="d-none d-md-block">

@@ -268,6 +268,8 @@ $(function () {
 }); // END document.ready
 </script>
 
+<script src="assets/js/finanzas.js"></script>
+
 <!-- JS adicional por vista (opcional) -->
 <?php if (isset($extraJs)) echo $extraJs; ?>
 

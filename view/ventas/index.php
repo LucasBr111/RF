@@ -5,7 +5,7 @@
                 <h5 class="modal-title"><i class="bi bi-cart-plus me-2"></i>Nueva Operación de Venta</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <form id="formRegistroVenta">
+            <form id="formRegistroVenta" class="form-financiero">
                 <div class="modal-body p-4 bg-light">
                     <div class="row g-3">
                         
@@ -72,8 +72,7 @@
                                         <input type="number" name="rango_fin" class="form-control" value="12" min="1" max="40">
                                     </div>
                                     <div class="col-md-3">
-                                        <label class="small">Monto por Cuota (₲)</label>
-                                        <input type="text" name="monto_cuota" class="form-control mask-guarani" placeholder="1.000.000">
+                                        <input type="text" name="monto_cuota" class="form-control input-precio" placeholder="1.000.000">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="small">% Mora Diario</label>
@@ -93,7 +92,7 @@
                                 <div class="row g-2 align-items-end" id="containerRefuerzos">
                                     <div class="col-md-3">
                                         <label class="small">Monto Refuerzo (₲)</label>
-                                        <input type="text" name="refuerzo_monto[]" class="form-control mask-guarani" placeholder="0">
+                                        <input type="text" name="refuerzo_monto[]" class="form-control input-precio" placeholder="0">
                                     </div>
                                     <div class="col-md-3">
                                         <label class="small">Mes (N° de cuota)</label>

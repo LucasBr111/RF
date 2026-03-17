@@ -595,7 +595,7 @@
 
 <div class="modal fade modal-pago-dark" id="modalPago" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
-        <form action="?c=pagos&a=RegistrarPago" method="POST" class="modal-content">
+        <form action="?c=pagos&a=RegistrarPago" method="POST" class="modal-content form-financiero">
             <input type="hidden" name="id_venta" value="<?= $venta->id_venta ?>">
             <input type="hidden" name="id_cuota" id="pay_id_cuota">
 
@@ -612,7 +612,7 @@
                     <label class="res-label mb-2 d-block">Monto a Pagar (Saldo)</label>
                     <div class="input-group">
                         <span class="input-group-text">Gs.</span>
-                        <input type="number" name="monto_pago" id="pay_monto" class="form-control mono" required>
+                        <input type="text" name="monto_pago" id="pay_monto" class="form-control mono input-precio" required>
                     </div>
                 </div>
 
@@ -620,7 +620,7 @@
                     <label class="res-label mb-2 d-block">Mora (Opcional)</label>
                     <div class="input-group">
                         <span class="input-group-text text-danger">+</span>
-                        <input type="number" name="mora_pago" id="pay_mora" class="form-control mono" value="0">
+                        <input type="text" name="mora_pago" id="pay_mora" class="form-control mono input-precio" value="0">
                     </div>
                     <small class="text-muted" style="font-size: .65rem;">Se sumará al monto total del cobro.</small>
                 </div>

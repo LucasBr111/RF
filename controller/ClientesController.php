@@ -37,4 +37,34 @@ class ClientesController {
             
         header('Location: ?c=clientes');
     }
+
+    public function detalle() {
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+        if (!$id) {
+            header('Location: ?c=clientes');
+            exit;
+        }
+
+        $cliente = $this->model->Obtener($id);
+        if (!$cliente) {
+            die("Error: Cliente no encontrado.");
+        }
+
+        $vehiculos = $this->model->obtenerVehiculos($id);
+        $pagos = $this->model->obtenerHistorialPagos($id);
+        $resumen = $this->model->obtenerSumatoriaCuotas($id);
+
+        global $pageTitle, $activePage, $breadcrumbs;
+        $pageTitle   = 'Perfil de Cliente';
+        $activePage  = 'clientes';
+        $breadcrumbs = [
+            ['label' => 'Inicio', 'url' => 'index.php'],
+            ['label' => 'Clientes', 'url' => '?c=clientes'],
+            ['label' => $cliente->nombre],
+        ];
+
+        require_once 'view/layout/header.php';
+        require_once 'view/clientes/detalle.php';
+        require_once 'view/layout/footer.php';
+    }
 }

@@ -287,3 +287,48 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+-- 1. Tabla para Planes de Pago Predefinidos (Ventas sugeridas)
+CREATE TABLE planes_fijos (
+    id_plan INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_plan VARCHAR(100) NOT NULL, -- Ej: "Plan Estándar 36 meses"
+    cant_cuotas_regulares INT NOT NULL,
+    monto_cuota_regular DECIMAL(15,2) NOT NULL,
+    cant_refuerzos INT DEFAULT 0,
+    monto_refuerzo DECIMAL(15,2) DEFAULT 0,
+    mes_refuerzo INT DEFAULT 12, -- Por defecto Diciembre
+    estado TINYINT(1) DEFAULT 1 -- 1: Activo, 0: Inactivo
+);
+
+-- 2. Tabla para Vehículos en Stock (Inventario Propio)
+CREATE TABLE vehiculos_stock (
+    id_stock INT AUTO_INCREMENT PRIMARY KEY,
+    id_modelo INT, -- Relación con tu tabla 'modelos' existente
+    color VARCHAR(50),
+    anho INT,
+    chasis VARCHAR(50) UNIQUE,
+    precio_base DECIMAL(15,2), -- Lo que te costó a vos
+    precio_venta DECIMAL(15,2), -- Precio sugerido al cliente
+    id_plan_sugerido INT, -- Relación con 'planes_fijos'
+    estado ENUM('DISPONIBLE', 'VENDIDO', 'RESERVADO') DEFAULT 'DISPONIBLE',
+    FOREIGN KEY (id_modelo) REFERENCES modelos(id_modelo),
+    FOREIGN KEY (id_plan_sugerido) REFERENCES planes_fijos(id_plan)
+);
+
+-- 3. Tabla para Recordatorios y Notificaciones
+CREATE TABLE recordatorios (
+    id_recordatorio INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT,
+    titulo VARCHAR(100),
+    descripcion TEXT,
+    fecha_notificacion DATE NOT NULL,
+    leido TINYINT(1) DEFAULT 0, -- Para marcar en el navbar
+    color_etiqueta VARCHAR(20) DEFAULT '#ffc107', -- Amarillo por defecto
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id)
+);
+
+-- 4. Modificación a la tabla Ventas para Auditoría
+ALTER TABLE ventas ADD COLUMN descuento_aplicado DECIMAL(15,2) DEFAULT 0;
+ALTER TABLE ventas ADD COLUMN ultima_modificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;

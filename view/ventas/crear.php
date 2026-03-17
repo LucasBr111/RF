@@ -102,7 +102,7 @@
                         </div>
                         <div class="col-12">
                             <label class="small">Monto Cuota Normal (₲)</label>
-                            <input type="text" id="monto_cuota_visual" class="form-control mask-guarani" placeholder="0">
+                            <input type="text" id="monto_cuota_visual" class="form-control input-precio" placeholder="0">
                         </div>
                         <div class="col-12">
                             <label class="small">Primer Vencimiento</label>
@@ -114,7 +114,7 @@
 
                         <div class="col-12">
                             <label class="small">Monto Refuerzo (₲)</label>
-                            <input type="text" id="monto_refuerzo_visual" class="form-control mask-guarani" placeholder="0">
+                            <input type="text" id="monto_refuerzo_visual" class="form-control input-precio" placeholder="0">
                         </div>
                         <div class="col-6">
                             <label class="small">Mes de Cobro</label>

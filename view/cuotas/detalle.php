@@ -1,5 +1,9 @@
 <?php
 // view/cuotas/detalle.php
+// Variables: $venta, $cuotas_detalle, $resumen
+?>
+<?php
+// view/cuotas/detalle.php
 // Variables esperadas: $venta, $cuotas_detalle, $resumen
 // $venta: objeto con id_venta, cliente_nombre, telefono, modelo_nombre, monto_total
 // $cuotas_detalle: array de cuotas con campos: numero_cuota, fecha_vencimiento, monto, monto_pagado, estado
@@ -150,341 +154,170 @@
         margin-top: .45rem;
     }
 
-    /* ---- TABLE CUOTAS ---- */
-    .cuotas-table-card {
-        background: var(--rf-surface);
-        border: 1px solid var(--rf-border);
-        border-radius: 16px;
-        overflow: hidden;
-    }
-
-    #tblDetalleCuotas {
-        color: var(--rf-text) !important;
-        margin: 0 !important;
-        font-size: .875rem;
-    }
-
-    #tblDetalleCuotas thead tr {
-        background: var(--rf-surface2) !important;
-        border-bottom: 1px solid var(--rf-border);
-    }
-
-    #tblDetalleCuotas thead th {
-        font-size: .68rem;
-        font-weight: 700;
-        letter-spacing: .1em;
-        text-transform: uppercase;
-        color: var(--rf-muted) !important;
-        padding: .9rem 1rem;
-        border: none !important;
-        white-space: nowrap;
-    }
-
-    #tblDetalleCuotas tbody tr {
-        border-bottom: 1px solid var(--rf-border) !important;
-        transition: background .15s;
-    }
-
-    #tblDetalleCuotas tbody tr:hover {
-        background: var(--rf-surface2) !important;
-    }
-
-    #tblDetalleCuotas tbody td {
-        padding: .8rem 1rem;
-        vertical-align: middle;
-        border: none !important;
-        color: var(--rf-text) !important;
-    }
-
-    .cuota-num {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: .8rem;
-        color: var(--rf-muted);
-    }
-
-    .mono {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: .85rem;
-    }
-
-    .txt-rojo {
-        color: var(--rojo) !important;
-    }
-
-    .txt-verde {
-        color: var(--verde) !important;
-    }
-
-    .txt-muted {
-        color: var(--rf-muted) !important;
-    }
-
-    .badge-cuota {
-        display: inline-flex;
-        align-items: center;
-        gap: .3rem;
-        font-size: .68rem;
-        font-weight: 700;
-        letter-spacing: .06em;
-        padding: .28rem .7rem;
-        border-radius: 50px;
-        border: 1.5px solid transparent;
-        white-space: nowrap;
-    }
-
-    .badge-cuota.pagada {
-        background: rgba(34, 197, 94, .1);
-        color: #22c55e;
-        border-color: rgba(34, 197, 94, .25);
-    }
-
-    .badge-cuota.pendiente {
-        background: rgba(6, 182, 212, .1);
-        color: #06b6d4;
-        border-color: rgba(6, 182, 212, .25);
-    }
-
-    .badge-cuota.atrasada {
-        background: rgba(245, 158, 11, .1);
-        color: #f59e0b;
-        border-color: rgba(245, 158, 11, .25);
-    }
-
-    .badge-cuota.muy-atras {
-        background: rgba(239, 68, 68, .1);
-        color: #ef4444;
-        border-color: rgba(239, 68, 68, .25);
-    }
-
-    .badge-cuota.hoy {
-        background: rgba(59, 130, 246, .1);
-        color: #3b82f6;
-        border-color: rgba(59, 130, 246, .25);
-    }
-
-    /* mora chip */
-    .mora-chip {
-        display: inline-block;
-        background: rgba(239, 68, 68, .12);
-        color: #ef4444;
-        border: 1px solid rgba(239, 68, 68, .25);
-        border-radius: 6px;
-        font-size: .7rem;
-        font-family: 'JetBrains Mono', monospace;
-        font-weight: 600;
-        padding: .15rem .5rem;
-    }
-
-    .mora-chip.cero {
-        background: transparent;
-        color: var(--rf-muted);
-        border-color: transparent;
-    }
-
-    /* back btn */
-    .btn-back {
-        display: inline-flex;
-        align-items: center;
-        gap: .4rem;
-        background: var(--rf-surface2);
-        border: 1.5px solid var(--rf-border);
-        border-radius: 10px;
-        color: var(--rf-muted);
-        font-size: .82rem;
-        font-weight: 600;
-        padding: .45rem .9rem;
-        text-decoration: none;
-        transition: all .18s;
-    }
-
-    .btn-back:hover {
-        color: var(--rf-text);
-        border-color: var(--rf-muted);
-        text-decoration: none;
-    }
-
-    /* DataTable overrides */
-    .dataTables_wrapper {
-        color: var(--rf-text) !important;
-        padding: 1rem;
-    }
-
-    .dataTables_wrapper .dataTables_length label,
-    .dataTables_wrapper .dataTables_info {
-        color: var(--rf-muted) !important;
-        font-size: .8rem;
-    }
-
-    .dataTables_wrapper .dataTables_length select {
-        background: var(--rf-surface2) !important;
-        border: 1px solid var(--rf-border) !important;
-        color: var(--rf-text) !important;
-        border-radius: 8px;
-        padding: .2rem .5rem;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
-        background: var(--rf-surface2) !important;
-        border: 1px solid var(--rf-border) !important;
-        color: var(--rf-muted) !important;
-        border-radius: 8px !important;
-        margin: 0 2px !important;
-        padding: .3rem .7rem !important;
-        font-size: .8rem;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-        background: var(--rf-accent) !important;
-        color: #fff !important;
-        border-color: var(--rf-accent) !important;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-        background: var(--rf-accent) !important;
-        color: #fff !important;
-        border-color: var(--rf-accent) !important;
-        font-weight: 700;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
-        opacity: .35 !important;
-        pointer-events: none;
-    }
-
-    /* Botones de acción específicos */
-    .btn-accion-pago {
-        background: var(--verde);
-        color: #fff;
-        border: none;
-        border-radius: 8px;
-        padding: .4rem .8rem;
-        font-size: .75rem;
-        font-weight: 700;
-        display: inline-flex;
-        align-items: center;
-        gap: .4rem;
-        transition: transform .15s, filter .15s;
-    }
-
-    .btn-accion-pago:hover {
-        transform: translateY(-2px);
-        filter: brightness(1.1);
-    }
-
-    .btn-accion-print {
-        background: var(--rf-surface2);
-        color: var(--rf-accent);
-        border: 1px solid var(--rf-border);
-        border-radius: 8px;
-        padding: .4rem .6rem;
-        font-size: .8rem;
-        transition: all .2s;
-    }
-
-    .btn-accion-print:hover {
-        background: var(--rf-accent);
-        color: #fff;
-    }
-
-    /* Modal de Pago */
-    .modal-pago-dark .modal-content {
-        background: var(--rf-surface);
-        color: var(--rf-text);
-        border: 1px solid var(--rf-border);
-        border-radius: 16px;
-    }
-
-    .modal-pago-dark .modal-header {
-        border-bottom: 1px solid var(--rf-border);
-    }
-
-    .modal-pago-dark .form-control {
-        background: var(--rf-surface2);
-        border: 1px solid var(--rf-border);
-        color: var(--rf-text);
-    }
-
-    .modal-pago-dark .form-control:focus {
-        border-color: var(--rf-accent);
-        box-shadow: none;
-    }
-
-    .input-group-text {
-        background: var(--rf-surface2);
-        border: 1px solid var(--rf-border);
-        color: var(--rf-muted);
-    }
 </style>
+<div class="container-fluid py-3">
 
-<div class="container-fluid py-4" style="font-family:'DM Sans',sans-serif; background:var(--rf-bg); color:var(--rf-text);">
-
-    <!-- Back -->
+    <!-- Volver -->
     <div class="mb-3">
         <a href="?c=cuotas&a=index" class="btn-back">
             <i class="bi bi-arrow-left"></i> Volver
         </a>
     </div>
 
-    <!-- Header cliente -->
-    <div class="detalle-header">
+    <!-- ── Header cliente ── -->
+    <div class="detalle-header mb-3">
         <div class="cliente-info">
-            <h4><i class="bi bi-person-circle me-2" style="color:var(--rf-accent);"></i><?= htmlspecialchars($venta->cliente_nombre) ?></h4>
+            <h4>
+                <i class="bi bi-person-circle me-2" style="color:var(--rf-accent);"></i>
+                <?= htmlspecialchars($venta->cliente_nombre) ?>
+            </h4>
             <p>
                 <span><?= htmlspecialchars($venta->modelo_nombre) ?></span>
-                &nbsp;·&nbsp;
-                📱 +595 <?= $venta->telefono ?>
-                &nbsp;·&nbsp;
-                Venta #<?= $venta->id_venta ?>
+                &nbsp;·&nbsp; 📱 +595 <?= $venta->telefono ?>
+                &nbsp;·&nbsp; Venta #<?= $venta->id_venta ?>
             </p>
         </div>
-        <div>
-            <span style="font-family:'JetBrains Mono',monospace; font-size:1.1rem; font-weight:700; color:var(--rf-accent);">
+        <div style="text-align:right; flex-shrink:0;">
+            <div style="font-family:var(--rf-font-mono); font-size:1.1rem; font-weight:700; color:var(--rf-accent);">
                 Gs. <?= number_format($venta->monto_total, 0, ',', '.') ?>
-            </span>
-            <div style="font-size:.7rem; color:var(--rf-muted); text-align:right;">Total financiado</div>
+            </div>
+            <div style="font-size:.7rem; color:var(--rf-muted);">Total financiado</div>
         </div>
     </div>
 
-    <!-- Resumen numérico -->
-    <div class="resumen-grid">
+    <!-- ── Resumen cards ── -->
+    <div class="resumen-grid mb-3 row-stats-mobile">
+
         <div class="res-card total">
             <span class="res-label"><i class="bi bi-collection me-1"></i>Total cuotas</span>
             <span class="res-val"><?= $resumen['total_cuotas'] ?></span>
         </div>
+
         <div class="res-card pagado">
             <span class="res-label"><i class="bi bi-check2-circle me-1"></i>Pagadas</span>
             <span class="res-val"><?= $resumen['pagadas'] ?></span>
             <span class="res-sub">Gs. <?= number_format($resumen['monto_cobrado'], 0, ',', '.') ?></span>
         </div>
+
         <div class="res-card pend">
             <span class="res-label"><i class="bi bi-hourglass-split me-1"></i>Pendientes</span>
             <span class="res-val"><?= $resumen['pendientes'] ?></span>
             <span class="res-sub">Gs. <?= number_format($resumen['monto_pendiente'], 0, ',', '.') ?></span>
         </div>
+
         <div class="res-card mora">
             <span class="res-label"><i class="bi bi-exclamation-octagon me-1"></i>Mora acumulada</span>
             <span class="res-val">Gs. <?= number_format($resumen['mora_total'], 0, ',', '.') ?></span>
             <span class="res-sub"><?= $resumen['cuotas_atrasadas'] ?> cuota(s) atrasada(s)</span>
         </div>
+
     </div>
 
-    <!-- Barra de progreso -->
-    <?php
-    $pct = $resumen['total_cuotas'] > 0 ? round(($resumen['pagadas'] / $resumen['total_cuotas']) * 100) : 0;
-    ?>
-    <div class="prog-wrap">
+    <!-- ── Barra de progreso ── -->
+    <?php $pct = $resumen['total_cuotas'] > 0 ? round(($resumen['pagadas'] / $resumen['total_cuotas']) * 100) : 0; ?>
+    <div class="prog-wrap mb-3">
         <label>Progreso de pago</label>
         <div class="prog-track">
             <div class="prog-bar" style="width:<?= $pct ?>%"></div>
         </div>
         <div class="prog-nums">
             <span><?= $resumen['pagadas'] ?> de <?= $resumen['total_cuotas'] ?> cuotas pagadas</span>
-            <span style="color:var(--verde); font-weight:700;"><?= $pct ?>%</span>
+            <span style="color:var(--rf-success); font-weight:700;"><?= $pct ?>%</span>
         </div>
     </div>
 
-    <!-- Tabla de cuotas -->
-    <div class="cuotas-table-card">
+    <!-- ── CARDS MOBILE ── -->
+    <div class="mobile-cards-list">
+        <?php foreach ($cuotas_detalle as $c):
+            $saldo = $c->monto - $c->monto_pagado;
+            $venc  = strtotime($c->fecha_vencimiento);
+            $hoy   = strtotime(date('Y-m-d'));
+            $mora  = 0;
+            $badge = 'pendiente';
+            $badge_label = '⏳ Pendiente';
+
+            if ($saldo <= 0) {
+                $badge = 'pagada'; $badge_label = '✓ Pagada';
+            } elseif ($venc == $hoy) {
+                $badge = 'hoy'; $badge_label = '🕐 Vence hoy';
+            } else {
+                $dias = max(0, floor(($hoy - $venc) / 86400));
+                if ($dias > 0) {
+                    $meses = ceil($dias / 30);
+                    $mora  = $saldo * 0.02 * $meses;
+                    $badge = $meses >= 2 ? 'muy-atras' : 'atrasada';
+                    $badge_label = $meses >= 2 ? '🔴 Muy atrasada' : '⚠ Atrasada';
+                }
+            }
+        ?>
+        <div class="mc">
+
+            <!-- Número cuota + badge + vencimiento -->
+            <div class="mc-top">
+                <span style="font-family:var(--rf-font-mono); font-size:.82rem; font-weight:700; color:var(--rf-text);">
+                    Cuota <?= str_pad($c->numero_cuota, 2, '0', STR_PAD_LEFT) ?>
+                </span>
+                <span class="badge-cuota <?= $badge ?>"><?= $badge_label ?></span>
+            </div>
+
+            <!-- Fecha vencimiento -->
+            <div class="mc-info">
+                <span>📅 <?= date('d/m/Y', strtotime($c->fecha_vencimiento)) ?></span>
+                <span style="font-family:var(--rf-font-mono); font-size:.72rem;">
+                    Cuota: Gs. <?= number_format($c->monto, 0, ',', '.') ?>
+                </span>
+            </div>
+
+            <!-- Pagado / Saldo / Mora -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:.35rem; font-size:.72rem;">
+                <div>
+                    <span style="color:var(--rf-muted); font-size:.62rem; text-transform:uppercase; font-weight:700; letter-spacing:.06em;">Pagado</span><br>
+                    <span style="font-family:var(--rf-font-mono); color:var(--rf-success); font-weight:600;">
+                        Gs. <?= number_format($c->monto_pagado, 0, ',', '.') ?>
+                    </span>
+                </div>
+                <div>
+                    <span style="color:var(--rf-muted); font-size:.62rem; text-transform:uppercase; font-weight:700; letter-spacing:.06em;">Saldo</span><br>
+                    <?php if ($saldo > 0): ?>
+                    <span style="font-family:var(--rf-font-mono); color:var(--rf-danger); font-weight:600;">
+                        Gs. <?= number_format($saldo, 0, ',', '.') ?>
+                    </span>
+                    <?php else: ?>
+                    <span style="color:var(--rf-muted);">—</span>
+                    <?php endif; ?>
+                </div>
+                <?php if ($mora > 0): ?>
+                <div style="grid-column:1/-1;">
+                    <span style="color:var(--rf-muted); font-size:.62rem; text-transform:uppercase; font-weight:700; letter-spacing:.06em;">Mora</span><br>
+                    <span class="mora-chip">+Gs. <?= number_format($mora, 0, ',', '.') ?></span>
+                </div>
+                <?php endif; ?>
+            </div>
+
+            <!-- Acciones -->
+            <?php if ($saldo > 0 || $c->monto_pagado > 0): ?>
+            <div class="mc-foot">
+                <?php if ($saldo > 0): ?>
+                <button type="button" class="btn-accion-pago"
+                    onclick="abrirModalPago(<?= $c->id_cuota ?>, <?= $c->numero_cuota ?>, <?= $saldo ?>, <?= $mora ?>)">
+                    <i class="bi bi-cash-stack"></i> Pagar
+                </button>
+                <?php endif; ?>
+                <?php if ($c->monto_pagado > 0): ?>
+                <a href="?c=cuotas&a=imprimirRecibo&id=<?= $c->id_cuota ?>" target="_blank"
+                   class="btn-accion-print" style="flex:1; justify-content:center; display:flex; align-items:center; gap:.3rem;">
+                    <i class="bi bi-printer"></i> Recibo
+                </a>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
+
+        </div>
+        <?php endforeach; ?>
+    </div>
+
+    <!-- ── TABLA DESKTOP ── -->
+    <div class="table-card has-mobile-cards">
         <div class="table-responsive">
             <table class="table" id="tblDetalleCuotas">
                 <thead>
@@ -504,184 +337,159 @@
                         $saldo = $c->monto - $c->monto_pagado;
                         $venc  = strtotime($c->fecha_vencimiento);
                         $hoy   = strtotime(date('Y-m-d'));
-
-                        // Mora: 2% mensual sobre saldo
-                        $mora = 0;
+                        $mora  = 0;
                         $badge = 'pendiente';
-                        $badge_label = 'Pendiente';
+                        $badge_label = '⏳ Pendiente';
 
                         if ($saldo <= 0) {
-                            $badge = 'pagada';
-                            $badge_label = '✓ Pagada';
-                            $mora = 0;
+                            $badge = 'pagada'; $badge_label = '✓ Pagada';
                         } elseif ($venc == $hoy) {
-                            $badge = 'hoy';
-                            $badge_label = '🕐 Vence hoy';
+                            $badge = 'hoy'; $badge_label = '🕐 Vence hoy';
                         } else {
-                            $dias_atraso = max(0, floor(($hoy - $venc) / 86400));
-                            if ($dias_atraso > 0) {
-                                $meses_atraso = ceil($dias_atraso / 30);
-                                $mora = $saldo * 0.02 * $meses_atraso;
-                                if ($meses_atraso >= 2) {
-                                    $badge = 'muy-atras';
-                                    $badge_label = '🔴 Muy atrasada';
-                                } else {
-                                    $badge = 'atrasada';
-                                    $badge_label = '⚠ Atrasada';
-                                }
-                            } elseif (date('m', $venc) == date('m')) {
-                                $badge = 'pendiente';
-                                $badge_label = '⏳ Pendiente';
+                            $dias = max(0, floor(($hoy - $venc) / 86400));
+                            if ($dias > 0) {
+                                $meses = ceil($dias / 30);
+                                $mora  = $saldo * 0.02 * $meses;
+                                $badge = $meses >= 2 ? 'muy-atras' : 'atrasada';
+                                $badge_label = $meses >= 2 ? '🔴 Muy atrasada' : '⚠ Atrasada';
                             }
                         }
                     ?>
-                        <tr>
-                            <td><span class="cuota-num"><?= str_pad($c->numero_cuota, 2, '0', STR_PAD_LEFT) ?></span></td>
-                            <td>
-                                <span class="mono"><?= date('d/m/Y', strtotime($c->fecha_vencimiento)) ?></span>
-                            </td>
-                            <td>
-                                <span class="mono">Gs. <?= number_format($c->monto, 0, ',', '.') ?></span>
-                            </td>
-                            <td>
-                                <span class="mono txt-verde">Gs. <?= number_format($c->monto_pagado, 0, ',', '.') ?></span>
-                            </td>
-                            <td>
+                    <tr>
+                        <td><span class="cuota-num"><?= str_pad($c->numero_cuota, 2, '0', STR_PAD_LEFT) ?></span></td>
+                        <td class="font-mono" style="font-size:.8rem; color:var(--rf-muted);">
+                            <?= date('d/m/Y', strtotime($c->fecha_vencimiento)) ?>
+                        </td>
+                        <td class="font-mono">Gs. <?= number_format($c->monto, 0, ',', '.') ?></td>
+                        <td class="font-mono" style="color:var(--rf-success);">
+                            Gs. <?= number_format($c->monto_pagado, 0, ',', '.') ?>
+                        </td>
+                        <td>
+                            <?php if ($saldo > 0): ?>
+                            <span class="font-mono" style="color:var(--rf-danger);">Gs. <?= number_format($saldo, 0, ',', '.') ?></span>
+                            <?php else: ?>
+                            <span style="color:var(--rf-muted);">—</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if ($mora > 0): ?>
+                            <span class="mora-chip">+Gs. <?= number_format($mora, 0, ',', '.') ?></span>
+                            <?php else: ?>
+                            <span class="mora-chip cero">—</span>
+                            <?php endif; ?>
+                        </td>
+                        <td><span class="badge-cuota <?= $badge ?>"><?= $badge_label ?></span></td>
+                        <td>
+                            <div class="acciones-group">
                                 <?php if ($saldo > 0): ?>
-                                    <span class="mono txt-rojo">Gs. <?= number_format($saldo, 0, ',', '.') ?></span>
-                                <?php else: ?>
-                                    <span class="mono txt-muted">—</span>
+                                <button type="button" class="btn-accion-pago"
+                                    onclick="abrirModalPago(<?= $c->id_cuota ?>, <?= $c->numero_cuota ?>, <?= $saldo ?>, <?= $mora ?>)">
+                                    <i class="bi bi-cash-stack"></i> Pagar
+                                </button>
                                 <?php endif; ?>
-                            </td>
-                            <td>
-                                <?php if ($mora > 0): ?>
-                                    <span class="mora-chip">+Gs. <?= number_format($mora, 0, ',', '.') ?></span>
-                                <?php else: ?>
-                                    <span class="mora-chip cero">—</span>
+                                <?php if ($c->monto_pagado > 0): ?>
+                                <a href="?c=cuotas&a=imprimirRecibo&id=<?= $c->id_cuota ?>"
+                                   target="_blank" class="btn-accion-print">
+                                    <i class="bi bi-printer"></i>
+                                </a>
                                 <?php endif; ?>
-                            </td>
-                            <td>
-                                <span class="badge-cuota <?= $badge ?>"><?= $badge_label ?></span>
-                            </td>
-                            <td class="text-end">
-                                <div class="d-flex justify-content-end gap-2">
-                                    <?php if ($saldo > 0): ?>
-                                        <button type="button"
-                                            class="btn-accion-pago"
-                                            onclick="abrirModalPago(<?= $c->id_cuota ?>, <?= $c->numero_cuota ?>, <?= $saldo ?>, <?= $mora ?>)"
-                                            title="Registrar Pago">
-                                            <i class="bi bi-cash-stack"></i> Pagar
-                                        </button>
-                                    <?php endif; ?>
-
-                                    <?php if ($c->monto_pagado > 0): ?>
-                                        <a href="?c=cuotas&a=imprimirRecibo&id=<?= $c->id_cuota ?>"
-                                            target="_blank"
-                                            class="btn-accion-print"
-                                            title="Imprimir Recibo">
-                                            <i class="bi bi-printer"></i>
-                                        </a>
-                                    <?php endif; ?>
-                                </div>
-                            </td>
-                        </tr>
+                            </div>
+                        </td>
+                    </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
+
 </div>
 
-
+<!-- ── Modal Pago ── -->
 <div class="modal fade modal-pago-dark" id="modalPago" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
         <form action="?c=pagos&a=RegistrarPago" method="POST" class="modal-content form-financiero">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:400px;">
+        <form action="?c=pagos&a=RegistrarPago" method="POST" class="modal-content">
             <input type="hidden" name="id_venta" value="<?= $venta->id_venta ?>">
             <input type="hidden" name="id_cuota" id="pay_id_cuota">
 
             <div class="modal-header">
-                <h6 class="modal-title fw-bold">
-                    <i class="bi bi-wallet2 me-2 text-success"></i>
-                    Registrar Cobro - Cuota #<span id="pay_num_cuota">00</span>
+                <h6 class="modal-title">
+                    <i class="bi bi-wallet2 me-2" style="color:var(--rf-success);"></i>
+                    Cobro — Cuota #<span id="pay_num_cuota">00</span>
                 </h6>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
 
             <div class="modal-body p-4">
+
                 <div class="mb-3">
-                    <label class="res-label mb-2 d-block">Monto a Pagar (Saldo)</label>
+                    <label class="form-label">Monto a pagar (saldo)</label>
                     <div class="input-group">
                         <span class="input-group-text">Gs.</span>
                         <input type="text" name="monto_pago" id="pay_monto" class="form-control mono input-precio" required>
+                        <input type="number" name="monto_pago" id="pay_monto" class="form-control font-mono" required>
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="res-label mb-2 d-block">Mora (Opcional)</label>
+                    <label class="form-label">Mora (opcional)</label>
                     <div class="input-group">
                         <span class="input-group-text text-danger">+</span>
                         <input type="text" name="mora_pago" id="pay_mora" class="form-control mono input-precio" value="0">
+                        <span class="input-group-text" style="color:var(--rf-danger);">+</span>
+                        <input type="number" name="mora_pago" id="pay_mora" class="form-control font-mono" value="0">
                     </div>
-                    <small class="text-muted" style="font-size: .65rem;">Se sumará al monto total del cobro.</small>
+                    <div style="font-size:.65rem; color:var(--rf-muted); margin-top:.3rem;">Se sumará al monto total del cobro.</div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="res-label mb-2 d-block">Método de Pago</label>
-                    <select name="metodo_pago" class="form-select bg-dark text-white border-secondary" id="metodo_pago" required>
+                    <label class="form-label">Método de pago</label>
+                    <select name="metodo_pago" id="metodo_pago" class="form-select" required>
                         <option value="Efectivo">Efectivo</option>
                         <option value="Transferencia">Transferencia</option>
                     </select>
                 </div>
 
-                <div class="p-3 rounded-3" style="background: rgba(108,127,255,0.05); border: 1px dashed var(--rf-accent);">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="res-label" style="color: var(--rf-accent);">Total a Cobrar:</span>
-                        <span class="mono fw-bold text-white" id="pay_total_visual">0</span>
-                    </div>
+                <div class="pago-total-box">
+                    <span class="pago-total-label">Total a cobrar</span>
+                    <span class="pago-total-val font-mono" id="pay_total_visual">Gs. 0</span>
                 </div>
+
             </div>
 
-            <div class="modal-footer border-0 p-4 pt-0">
-                <button type="submit" class="btn-aplicar py-2">
-                    Confirmar Cobro
-                </button>
+            <div class="modal-footer" style="border:none; padding:1rem 1.5rem;">
+                <button type="button" class="btn-cancelar" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn-rf primary px-4">Confirmar cobro</button>
             </div>
+
         </form>
     </div>
 </div>
+
 <script>
-    $(document).ready(function() {
-        $('#tblDetalleCuotas').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
-            },
-            pageLength: 25,
-            dom: 'lrtip',
-            order: [
-                [0, 'asc']
-            ]
-        });
+$(document).ready(function () {
+    $('#tblDetalleCuotas').DataTable({
+        language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+        pageLength: 25,
+        dom: 'lrtip',
+        order: [[0, 'asc']]
     });
+});
 
-    function abrirModalPago(id, num, saldo, mora) {
-        $('#pay_id_cuota').val(id);
-        $('#pay_num_cuota').text(num.toString().padStart(2, '0'));
-        $('#pay_monto').val(saldo);
-        $('#pay_mora').val(Math.round(mora));
+function abrirModalPago(id, num, saldo, mora) {
+    $('#pay_id_cuota').val(id);
+    $('#pay_num_cuota').text(num.toString().padStart(2, '0'));
+    $('#pay_monto').val(saldo);
+    $('#pay_mora').val(Math.round(mora));
+    actualizarTotal();
+    new bootstrap.Modal(document.getElementById('modalPago')).show();
+}
 
-        actualizarTotalCobro();
+function actualizarTotal() {
+    const total = (parseFloat($('#pay_monto').val()) || 0) + (parseFloat($('#pay_mora').val()) || 0);
+    $('#pay_total_visual').text('Gs. ' + total.toLocaleString('es-PY'));
+}
 
-        const modal = new bootstrap.Modal(document.getElementById('modalPago'));
-        modal.show();
-    }
-
-    // Función para mostrar el total en tiempo real dentro del modal
-    function actualizarTotalCobro() {
-        const monto = parseFloat($('#pay_monto').val()) || 0;
-        const mora = parseFloat($('#pay_mora').val()) || 0;
-        const total = monto + mora;
-        $('#pay_total_visual').text('Gs. ' + total.toLocaleString('es-PY'));
-    }
-
-    $('#pay_monto, #pay_mora').on('input', actualizarTotalCobro);
+$('#pay_monto, #pay_mora').on('input', actualizarTotal);
 </script>

@@ -1,6 +1,6 @@
 <div class="row g-4">
     <div class="col-12 col-xl-4">
-        <div class="card-rf h-100 p-4">
+        <div class="card-rf p-4">
             <h5 class="fw-bold mb-4 text-accent"><i class="bi bi-person-plus me-2"></i>Cliente y Co-Deudor</h5>
             <div class="row g-3">
                 <div class="col-12">
@@ -133,7 +133,7 @@
             </div>
 
             <div class="col-12">
-                <div class="card-rf p-4 bg-dark text-white border-accent">
+                <div class="card-rf p-4 bg-dark text-white border-accent mb-4">
                     <div class="row align-items-center">
                         <div class="col-md-8">
                             <div class="row text-center text-md-start">

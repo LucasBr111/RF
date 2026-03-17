@@ -35,12 +35,7 @@ $menus = [
             ['page' => 'modelos',   'label' => 'Modelos de Vehículos', 'icon' => 'bi bi-card-list', 'url' => 'index.php?c=modelos'],
         ]
     ],
-    [
-        'section' => 'Análisis',
-        'items' => [
-            ['page' => 'reportes',  'label' => 'Reportes',          'icon' => 'bi bi-bar-chart-line','url' => 'index.php?c=reportes'],
-        ]
-    ],
+  
 ];
 ?>
 
